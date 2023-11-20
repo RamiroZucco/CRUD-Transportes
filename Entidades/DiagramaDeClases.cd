@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="Entidades.Transporte">
+    <Position X="7.25" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAEAAAAAEgAAABAAAAAgAAAgAAAAAQAAAAig=</HashCode>
+      <FileName>Transporte.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Entidades.Auto">
+    <Position X="5.5" Y="10.25" Width="6" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAAAEgAAAAAAAAAgAAAAAAAYAAAACAig=</HashCode>
+      <FileName>Auto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Entidades.Avion">
+    <Position X="10.75" Y="5.5" Width="6" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEgAAAAAABAAkAAAAAAAgAAAAIAig=</HashCode>
+      <FileName>Avion.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Entidades.Caballo">
+    <Position X="0.5" Y="5.5" Width="6.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAACEgAAAgAAAAAgAAACAAAAAgAAAAig=</HashCode>
+      <FileName>Caballo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -1,0 +1,1 @@
+﻿<?xml version="1.0" encoding="utf-8"?><ArrayOfTransporte xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><Transporte xsi:type="Caballo"><CantidadPasajeros>2</CantidadPasajeros><VelocidadMaxima>Baja</VelocidadMaxima><Carga>Liviana</Carga><Nombre>pipo</Nombre><Color>Negro</Color></Transporte></ArrayOfTransporte>
