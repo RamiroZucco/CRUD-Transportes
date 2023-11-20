@@ -1,3 +1,5 @@
+using Entidades;
+
 namespace WinFormsCRUD
 {
     internal static class Program
@@ -30,8 +32,21 @@ namespace WinFormsCRUD
                         break;
                     }
                     else if (frm.UsuarioDelForm == null)
-                    { 
-                        MessageBox.Show("Correo o contraseña incorrectos", "DATOS DEL USUARIO", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    {
+                        try
+                        {
+                            throw new UsuarioErroneoExcepcion();
+                        }
+                        catch (UsuarioErroneoExcepcion ex)
+                        {
+                            MessageBox.Show(UsuarioErroneoExcepcion.RetornarInformacionDelError(ex),
+                                "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show($"Error: {ex.Message}\nComuniquese con sistemas", "Error",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
                         frm.ShowDialog();
                     }
 
