@@ -1,93 +1,72 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace Entidades
 {
-
-    public class ColeccionTransportes
+    public class ColeccionTransportes<T> where T : Transporte
     {
         #region Propiedades
 
-        private List<Transporte> listaTransportes;
+        private List<T> listaTransportes;
 
-        public List<Transporte> ListaTransportes 
-        { 
-          get { return this.listaTransportes; }
-          set { this.listaTransportes = value; }
+        public List<T> ListaTransportes
+        {
+            get { return this.listaTransportes; }
+            set { this.listaTransportes = value; }
         }
+
         #endregion
 
-
         #region Constructores
+
         public ColeccionTransportes()
         {
-            this.listaTransportes = new List<Transporte>();
+            this.listaTransportes = new List<T>();
         }
+
         #endregion
 
         #region Metodos y Sobrecargas
-        public static bool operator +(ColeccionTransportes coleccion, Transporte transporte)
-        {
-            bool agregado = true;
-            if (coleccion.listaTransportes.Count > 0)
-            {
-                foreach (Transporte t in coleccion.listaTransportes)
-                {
-                    if (t.Equals(transporte))
-                    {
-                        agregado = false;
-                        break;
-                    }
 
+        public static ColeccionTransportes<T> operator +(ColeccionTransportes<T> c, T t)
+        {
+            if (c != t)
+            {
+                c.listaTransportes.Add(t);
+            }
+            return c;
+        }
+        public static ColeccionTransportes<T> operator -(ColeccionTransportes<T> c, T t)
+        {
+            if (c == t)
+            {
+                c.listaTransportes.Remove(t);
+            }
+            return c;
+        }
+
+        public static bool operator ==(ColeccionTransportes<T> c, T t)
+        {
+            foreach (T transporte in c.listaTransportes)
+            {
+                if (t.Equals(transporte))
+                {
+                    return true;
                 }
             }
+            return false;
+        }
+        public static bool operator !=(ColeccionTransportes<T> c, T t)
+        {
+            return !(c == t);
+        }
 
-            if (agregado || coleccion.listaTransportes.Count == 0)
-            {
-                coleccion.listaTransportes.Add(transporte);
-
-            }
-            return agregado;
-        }
-        public static bool operator -(ColeccionTransportes coleccion, Transporte transporte)
+        public override bool Equals(object? obj)
         {
-            bool eliminado = false;
-            if (coleccion.listaTransportes.Count > 0)
-            {
-                foreach (Transporte t in coleccion.listaTransportes)
-                {
-                    if (t.Equals(transporte))
-                    {
-                        coleccion.listaTransportes.Remove(t);
-                        eliminado = true;
-                        break;
-                    }
-                }
-            }
-            return eliminado;
-        }
-        public static bool operator ==(Transporte t, ColeccionTransportes coleccion)
-        {
-            bool retorno = false;
-            foreach (Transporte item in coleccion.ListaTransportes)
-            {
-                if (item == t)
-                {
-                    retorno = true;
-                    break;
-                }
-            }
-            return retorno;
-        }
-        public static bool operator !=(Transporte t, ColeccionTransportes coleccion)
-        {
-            return !(t == coleccion);
+            return this == (T)obj;
         }
 
         public void OrdenarPorCantidadPasajerosAscendente()
@@ -109,16 +88,6 @@ namespace Entidades
         {
             ListaTransportes.Sort((t1, t2) => t2.VelocidadMaxima.CompareTo(t1.VelocidadMaxima));
         }
-        public override bool Equals(object? obj)
-        {
-            if (obj is Transporte transporte)
-            {
-                return ListaTransportes.Contains(transporte);
-            }
-
-            return false;
-        }
         #endregion
     }
-
 }

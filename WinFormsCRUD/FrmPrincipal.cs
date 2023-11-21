@@ -20,20 +20,19 @@ namespace WinFormsCRUD
 {
     public partial class FrmPrincipal : Form
     {
-        private ColeccionTransportes caballos;
-        private ColeccionTransportes autos;
-        private ColeccionTransportes aviones;
+        private ColeccionTransportes<Transporte> caballos;
+        private ColeccionTransportes<Transporte> autos;
+        private ColeccionTransportes<Transporte> aviones;
         private ToolStripStatusLabel toolStripStatusLabelNombreOperador;
         private StatusStrip statusStrip;
-
 
         public FrmPrincipal(Usuario usuario)
         {
             InitializeComponent();
 
-            this.caballos = new ColeccionTransportes();
-            this.autos = new ColeccionTransportes();
-            this.aviones = new ColeccionTransportes();
+            this.caballos = new ColeccionTransportes<Transporte>();
+            this.autos = new ColeccionTransportes<Transporte>();
+            this.aviones = new ColeccionTransportes<Transporte>();
             statusStrip = new StatusStrip();
             statusStrip.Dock = DockStyle.Top;
             toolStripStatusLabelNombreOperador = new ToolStripStatusLabel();
@@ -64,31 +63,16 @@ namespace WinFormsCRUD
             {
                 if (frmTpt.DialogResult == DialogResult.OK)
                 {
-                    if (this.autos + frmTpt.nuevoAuto)
-                    {
-                        this.ActualizarVisorAutos();
-                    }
-                    else
-                    {
-                        MessageBox.Show("El auto ya está disponible", "AVISO", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    }
-
-
+                    this.autos += frmTpt.nuevoAuto;
+                    ActualizarVisor(this.lstVisorAutos, this.autos);
                 }
             }
             else if (frmTpt.esCaballo)
             {
                 if (frmTpt.DialogResult == DialogResult.OK)
                 {
-                    if (this.caballos + frmTpt.nuevoCaballo)
-                    {
-                        this.ActualizarVisorCaballos();
-                    }
-                    else
-                    {
-                        MessageBox.Show("El caballo ya está disponible", "AVISO", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    }
-
+                    this.caballos += frmTpt.nuevoCaballo;
+                    ActualizarVisor(this.lstVisorCaballos, this.caballos);
 
                 }
             }
@@ -96,50 +80,10 @@ namespace WinFormsCRUD
             {
                 if (frmTpt.DialogResult == DialogResult.OK)
                 {
-                    if (this.aviones + frmTpt.nuevoAvion)
-                    {
-                        this.ActualizarVisorAviones();
-                    }
-                    else
-                    {
-                        MessageBox.Show("El avión ya está disponible", "AVISO", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    }
-
-
+                    this.aviones += frmTpt.nuevoAvion;
+                    ActualizarVisor(this.lstVisorAviones, this.aviones);
                 }
             }
-        }
-
-
-
-        public void ActualizarVisorCaballos()
-        {
-            this.lstVisorCaballos.Items.Clear();
-            foreach (Transporte caballo in this.caballos.ListaTransportes)
-            {
-                lstVisorCaballos.Items.Add(caballo.ToString());
-            }
-
-        }
-
-        public void ActualizarVisorAutos()
-        {
-            this.lstVisorAutos.Items.Clear();
-            foreach (Transporte auto in this.autos.ListaTransportes)
-            {
-                lstVisorAutos.Items.Add(auto.ToString());
-            }
-
-        }
-
-        public void ActualizarVisorAviones()
-        {
-            this.lstVisorAviones.Items.Clear();
-            foreach (Transporte avion in this.aviones.ListaTransportes)
-            {
-                lstVisorAviones.Items.Add(avion.ToString());
-            }
-
         }
 
         private void btnModificar_Click(object sender, EventArgs e)
@@ -158,7 +102,7 @@ namespace WinFormsCRUD
                     if (frm1.DialogResult == DialogResult.OK)
                     {
                         this.caballos.ListaTransportes[indiceCaballos] = frm1.caballo;
-                        this.ActualizarVisorCaballos();
+                        ActualizarVisor(this.lstVisorCaballos, this.caballos);
                     }
                 }
             }
@@ -172,7 +116,7 @@ namespace WinFormsCRUD
                     if (frm2.DialogResult == DialogResult.OK)
                     {
                         this.autos.ListaTransportes[indiceAutos] = frm2.auto;
-                        this.ActualizarVisorAutos();
+                        ActualizarVisor(this.lstVisorAutos, this.autos);
                     }
                 }
             }
@@ -186,7 +130,7 @@ namespace WinFormsCRUD
                     if (frm3.DialogResult == DialogResult.OK)
                     {
                         this.aviones.ListaTransportes[indiceAviones] = frm3.avion;
-                        this.ActualizarVisorAviones();
+                        ActualizarVisor(this.lstVisorAviones, this.aviones);
                     }
                 }
             }
@@ -208,9 +152,10 @@ namespace WinFormsCRUD
                 Transporte auto = this.autos.ListaTransportes[indiceAutos];
                 DialogResult result = MessageBox.Show("¿Deseas eliminar este transporte?", "Confirmar eliminación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-                if (result == DialogResult.Yes && this.autos - auto)
+                if (result == DialogResult.Yes)
                 {
-                    this.ActualizarVisorAutos();
+                    this.autos -= auto;
+                    ActualizarVisor(this.lstVisorAutos, this.autos);
                 }
             }
             else if (indiceAviones >= 0)
@@ -218,20 +163,25 @@ namespace WinFormsCRUD
                 Transporte avion = this.aviones.ListaTransportes[indiceAviones];
                 DialogResult result = MessageBox.Show("¿Deseas eliminar este transporte?", "Confirmar eliminación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-                if (result == DialogResult.Yes && this.aviones - avion)
+                if (result == DialogResult.Yes)
                 {
-                    this.ActualizarVisorAviones();
+                    this.aviones -= avion;
+                    ActualizarVisor(this.lstVisorAviones, this.aviones);
                 }
             }
             else if (indiceCaballos >= 0)
             {
                 Transporte caballo = this.caballos.ListaTransportes[indiceCaballos];
-                DialogResult result = MessageBox.Show("¿Deseas eliminar este transporte?", "Confirmar eliminación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-                if (result == DialogResult.Yes && this.caballos - caballo)
-                {
-                    this.ActualizarVisorCaballos();
+                 DialogResult result = MessageBox.Show("¿Deseas eliminar este transporte?", "Confirmar eliminación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                 if (result == DialogResult.Yes)
+                 {
+                    this.caballos -= caballo;
+                    ActualizarVisor(this.lstVisorCaballos, this.caballos);
                 }
+                
+
             }
             else
             {
@@ -244,9 +194,9 @@ namespace WinFormsCRUD
             this.aviones.OrdenarPorCantidadPasajerosDescendente();
             this.autos.OrdenarPorCantidadPasajerosDescendente();
             this.caballos.OrdenarPorCantidadPasajerosDescendente();
-            this.ActualizarVisorAviones();
-            this.ActualizarVisorAutos();
-            this.ActualizarVisorCaballos();
+            ActualizarVisor(this.lstVisorAviones, this.aviones);
+            ActualizarVisor(this.lstVisorAutos, this.autos);
+            ActualizarVisor(this.lstVisorCaballos, this.caballos);
         }
 
         private void btnMenosPasajeros_Click(object sender, EventArgs e)
@@ -254,9 +204,9 @@ namespace WinFormsCRUD
             this.aviones.OrdenarPorCantidadPasajerosAscendente();
             this.autos.OrdenarPorCantidadPasajerosAscendente();
             this.caballos.OrdenarPorCantidadPasajerosAscendente();
-            this.ActualizarVisorAviones();
-            this.ActualizarVisorAutos();
-            this.ActualizarVisorCaballos();
+            ActualizarVisor(this.lstVisorAviones, this.aviones);
+            ActualizarVisor(this.lstVisorAutos, this.autos);
+            ActualizarVisor(this.lstVisorCaballos, this.caballos);
 
         }
 
@@ -265,9 +215,9 @@ namespace WinFormsCRUD
             this.aviones.OrdenarPorVelocidadMaximaDescendente();
             this.autos.OrdenarPorVelocidadMaximaDescendente();
             this.caballos.OrdenarPorVelocidadMaximaDescendente();
-            this.ActualizarVisorAviones();
-            this.ActualizarVisorAutos();
-            this.ActualizarVisorCaballos();
+            ActualizarVisor(this.lstVisorAviones, this.aviones);
+            ActualizarVisor(this.lstVisorAutos, this.autos);
+            ActualizarVisor(this.lstVisorCaballos, this.caballos);
 
         }
 
@@ -276,9 +226,9 @@ namespace WinFormsCRUD
             this.aviones.OrdenarPorVelocidadMaximaAscendente();
             this.autos.OrdenarPorVelocidadMaximaAscendente();
             this.caballos.OrdenarPorVelocidadMaximaAscendente();
-            this.ActualizarVisorAviones();
-            this.ActualizarVisorAutos();
-            this.ActualizarVisorCaballos();
+            ActualizarVisor(this.lstVisorAviones, this.aviones);
+            ActualizarVisor(this.lstVisorAutos, this.autos);
+            ActualizarVisor(this.lstVisorCaballos, this.caballos);
 
         }
 
@@ -332,7 +282,7 @@ namespace WinFormsCRUD
                         XmlSerializer ser = new XmlSerializer(typeof(List<Transporte>));
                         this.autos.ListaTransportes = (List<Transporte>)ser.Deserialize(reader);
                     }
-                    ActualizarVisorAutos();
+                    ActualizarVisor(this.lstVisorAutos, this.autos);
                 }
                 catch (Exception ex)
                 {
@@ -374,7 +324,7 @@ namespace WinFormsCRUD
                         XmlSerializer ser = new XmlSerializer(typeof(List<Transporte>));
                         this.caballos.ListaTransportes = (List<Transporte>)ser.Deserialize(reader);
                     }
-                    ActualizarVisorCaballos();
+                    ActualizarVisor(this.lstVisorCaballos, this.caballos);
                 }
                 catch (Exception ex)
                 {
@@ -417,7 +367,7 @@ namespace WinFormsCRUD
                         XmlSerializer ser = new XmlSerializer(typeof(List<Transporte>));
                         this.aviones.ListaTransportes = (List<Transporte>)ser.Deserialize(reader);
                     }
-                    ActualizarVisorAviones();
+                    ActualizarVisor(this.lstVisorAviones,this.aviones);
                 }
                 catch (Exception ex)
                 {
@@ -460,6 +410,15 @@ namespace WinFormsCRUD
         private void btnGuardarAviones_Click(object sender, EventArgs e)
         {
             SerializarAviones();
+        }
+
+        private void ActualizarVisor<T>(ListBox listBox, ColeccionTransportes<Transporte> coleccion) where T : Transporte
+        {
+            listBox.Items.Clear();
+            foreach (T transporte in coleccion.ListaTransportes)
+            {
+                listBox.Items.Add(transporte.ToString());
+            }
         }
     }
 }

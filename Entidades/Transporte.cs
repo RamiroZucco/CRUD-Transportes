@@ -99,11 +99,12 @@ namespace Entidades
 
         public override bool Equals(object? obj)
         {
-            if (obj is Transporte otro)
+            bool retorno = false;
+            if (obj is Transporte)
             {
-                return this.cantidadPasajeros == otro.cantidadPasajeros && this.carga == otro.carga;
+                retorno = this == (Transporte)obj;
             }
-            return false;
+            return retorno;
         }
 
         /// <summary>
