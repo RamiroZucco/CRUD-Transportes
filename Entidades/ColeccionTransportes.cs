@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Xml.Serialization;
 
+
 namespace Entidades
 {
     public class ColeccionTransportes<T> where T : Transporte
@@ -89,5 +90,6 @@ namespace Entidades
             ListaTransportes.Sort((t1, t2) => t2.VelocidadMaxima.CompareTo(t1.VelocidadMaxima));
         }
         #endregion
+
     }
 }

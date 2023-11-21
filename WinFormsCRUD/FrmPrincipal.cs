@@ -248,7 +248,7 @@ namespace WinFormsCRUD
             }
         }
 
-        private void SerializarAutos()
+        private void Serializar(ColeccionTransportes<Transporte> c)
         {
             try
             {
@@ -259,7 +259,7 @@ namespace WinFormsCRUD
                     using (XmlTextWriter writer = new XmlTextWriter(filePath, Encoding.UTF8))
                     {
                         XmlSerializer ser = new XmlSerializer(typeof(List<Transporte>));
-                        ser.Serialize(writer, this.autos.ListaTransportes);
+                        ser.Serialize(writer, c.ListaTransportes);
                     }
                 }
             }
@@ -268,7 +268,8 @@ namespace WinFormsCRUD
                 MessageBox.Show("Error al deserializar el archivo XML: " + ex.Message);
             }
         }
-        private void DeserializarAutos()
+
+        private void Deserializar(ColeccionTransportes<Transporte> c, ListBox listBox)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
 
@@ -280,94 +281,9 @@ namespace WinFormsCRUD
                     using (XmlTextReader reader = new XmlTextReader(filePath))
                     {
                         XmlSerializer ser = new XmlSerializer(typeof(List<Transporte>));
-                        this.autos.ListaTransportes = (List<Transporte>)ser.Deserialize(reader);
+                        c.ListaTransportes = (List<Transporte>)ser.Deserialize(reader);
                     }
-                    ActualizarVisor(this.lstVisorAutos, this.autos);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error al serializar el archivo XML: " + ex.Message);
-                }
-            }
-        }
-        private void SerializarCaballos()
-        {
-            try
-            {
-                SaveFileDialog guardarDatos = new SaveFileDialog();
-                if (guardarDatos.ShowDialog() == DialogResult.OK)
-                {
-                    string filePath = guardarDatos.FileName;
-                    using (XmlTextWriter writer = new XmlTextWriter(filePath, Encoding.UTF8))
-                    {
-                        XmlSerializer ser = new XmlSerializer(typeof(List<Transporte>));
-                        ser.Serialize(writer, this.caballos.ListaTransportes);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al deserializar el archivo XML: " + ex.Message);
-            }
-        }
-        private void DeserializarCaballos()
-        {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                string filePath = openFileDialog.FileName;
-                try
-                {
-                    using (XmlTextReader reader = new XmlTextReader(filePath))
-                    {
-                        XmlSerializer ser = new XmlSerializer(typeof(List<Transporte>));
-                        this.caballos.ListaTransportes = (List<Transporte>)ser.Deserialize(reader);
-                    }
-                    ActualizarVisor(this.lstVisorCaballos, this.caballos);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error al serializar el archivo XML: " + ex.Message);
-                }
-            }
-        }
-
-        private void SerializarAviones()
-        {
-            try
-            {
-                SaveFileDialog guardarDatos = new SaveFileDialog();
-                if (guardarDatos.ShowDialog() == DialogResult.OK)
-                {
-                    string filePath = guardarDatos.FileName;
-                    using (XmlTextWriter writer = new XmlTextWriter(filePath, Encoding.UTF8))
-                    {
-                        XmlSerializer ser = new XmlSerializer(typeof(List<Transporte>));
-                        ser.Serialize(writer, this.aviones.ListaTransportes);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al deserializar el archivo XML: " + ex.Message);
-            }
-        }
-        private void DeserializarAviones()
-        {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                string filePath = openFileDialog.FileName;
-                try
-                {
-                    using (XmlTextReader reader = new XmlTextReader(filePath))
-                    {
-                        XmlSerializer ser = new XmlSerializer(typeof(List<Transporte>));
-                        this.aviones.ListaTransportes = (List<Transporte>)ser.Deserialize(reader);
-                    }
-                    ActualizarVisor(this.lstVisorAviones,this.aviones);
+                    ActualizarVisor(listBox, c);
                 }
                 catch (Exception ex)
                 {
@@ -384,38 +300,38 @@ namespace WinFormsCRUD
 
         private void btnCargarCaballos_Click(object sender, EventArgs e)
         {
-            DeserializarCaballos();
+            Deserializar(this.caballos, lstVisorCaballos);
         }
 
         private void btnGuardarCaballos_Click(object sender, EventArgs e)
         {
-            SerializarCaballos();
+            Serializar(caballos);
         }
 
         private void btnCargarAutos_Click(object sender, EventArgs e)
         {
-            DeserializarAutos();
+            Deserializar(this.autos, lstVisorAutos);
         }
 
         private void btnGuardarAutos_Click(object sender, EventArgs e)
         {
-            SerializarAutos();
+            Serializar(autos);
         }
 
         private void btnCargarAviones_Click(object sender, EventArgs e)
         {
-            DeserializarAviones();
+            Deserializar(this.aviones,lstVisorAviones);
         }
 
         private void btnGuardarAviones_Click(object sender, EventArgs e)
         {
-            SerializarAviones();
+            Serializar(aviones);
         }
 
-        private void ActualizarVisor<T>(ListBox listBox, ColeccionTransportes<Transporte> coleccion) where T : Transporte
+        private void ActualizarVisor(ListBox listBox, ColeccionTransportes<Transporte> coleccion)
         {
             listBox.Items.Clear();
-            foreach (T transporte in coleccion.ListaTransportes)
+            foreach (Transporte transporte in coleccion.ListaTransportes)
             {
                 listBox.Items.Add(transporte.ToString());
             }
