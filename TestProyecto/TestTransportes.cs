@@ -34,5 +34,59 @@ namespace TestProyecto
 
             Assert.IsFalse(rta);
         }
+
+        /// <summary>
+        /// Metodo de testeo que verifica la igualdad de dos caballos iguales
+        /// </summary>
+        [TestMethod]
+        public void VerificarCaballosIgualesOk()
+        {
+            Caballo c1 = new Caballo("Rayo", 3, EColor.Pinto);
+            Caballo c2 = new Caballo("Rayo", 3,EVelocidad.Baja, EColor.Pinto, ECarga.Liviana);
+
+            bool rta = c1 == c2;
+
+            Assert.IsTrue(rta);
+        }
+
+        /// <summary>
+        /// Metodo de testeo que verifica la igualdad de dos caballos distintos
+        /// </summary>
+        [TestMethod]
+        public void VerificarCaballosIgualesFalla()
+        {
+            Caballo c1 = new Caballo();
+            Caballo c2 = new Caballo("Rayo",3,EColor.Pinto);
+
+            bool rta = c1 == c2;
+
+            Assert.IsFalse(rta);
+        }
+
+        /// <summary>
+        /// Metodo de testeo que verifica si el parametro modelo no es null
+        /// </summary>
+        [TestMethod]
+        public void VerificarModeloNoEsNull()
+        {
+            Avion a = new Avion(3,"AR-650",30);
+
+            string modelo = a.Modelo;
+
+            Assert.IsNotNull(modelo);
+        }
+
+        /// <summary>
+        /// Metodo de testeo que verifica si el parametro modelo es null
+        /// </summary>
+        [TestMethod]
+        public void VerificarModeloEsNull()
+        {
+            Avion a = new Avion();
+
+            string modelo = a.Modelo;
+
+            Assert.IsNull(modelo);
+        }
     }
 }
