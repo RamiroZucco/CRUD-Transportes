@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace Entidades
 {
-    public interface IActualizableVisor<T>
+    public interface IValidadora
     {
-        void ActualizarVisor(List<T> listaTransportes);
+        bool ValidarTexto(string texto);
+
     }
 }

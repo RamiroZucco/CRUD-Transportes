@@ -13,7 +13,7 @@ using System.Windows.Forms;
 
 namespace WinFormsCRUD
 {
-    public partial class FrmCaballo : Form
+    public partial class FrmCaballo : Form, IValidadora
     {
         public Caballo caballo;
 
@@ -50,7 +50,7 @@ namespace WinFormsCRUD
 
             string nombre = this.txtNombre.Text;
 
-            if (!Regex.IsMatch(nombre, "^[a-zA-Z]+$"))
+            if (!((IValidadora)this).ValidarTexto(nombre))
             {
                 MessageBox.Show("El nombre solo puede contener letras.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -76,5 +76,9 @@ namespace WinFormsCRUD
             this.DialogResult = DialogResult.Cancel;
         }
 
+        bool IValidadora.ValidarTexto(string texto)
+        {
+            return System.Text.RegularExpressions.Regex.IsMatch(texto, @"^[a-zA-Z]+$");
+        }
     }
 }
