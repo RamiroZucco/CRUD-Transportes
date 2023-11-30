@@ -56,34 +56,53 @@ namespace WinFormsCRUD
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
-            FrmTransporte frmTpt = new FrmTransporte();
-            frmTpt.StartPosition = FormStartPosition.CenterScreen;
-            frmTpt.ShowDialog();
-            if (frmTpt.esAuto)
+            try
             {
-                if (frmTpt.DialogResult == DialogResult.OK && !ExisteTransporte(frmTpt.nuevoAuto,autos))
+                FrmTransporte frmTpt = new FrmTransporte();
+                frmTpt.StartPosition = FormStartPosition.CenterScreen;
+                frmTpt.ShowDialog();
+                if (frmTpt.esAuto)
                 {
-                    this.autos += frmTpt.nuevoAuto;
-                    ActualizarVisor(this.lstVisorAutos, this.autos);
+                    if (frmTpt.DialogResult == DialogResult.OK && !ExisteTransporte(frmTpt.nuevoAuto, autos))
+                    {
+                        this.autos += frmTpt.nuevoAuto;
+                        ActualizarVisor(this.lstVisorAutos, this.autos);
+                    }
+                    else
+                    {
+                        throw new TransporteRepetidoExcepcion("Este auto ya existe");
+                    }
+                }
+                else if (frmTpt.esCaballo)
+                {
+                    if (frmTpt.DialogResult == DialogResult.OK && !ExisteTransporte(frmTpt.nuevoCaballo, caballos))
+                    {
+                        this.caballos += frmTpt.nuevoCaballo;
+                        ActualizarVisor(this.lstVisorCaballos, this.caballos);
+                    }
+                    else
+                    {
+                        throw new TransporteRepetidoExcepcion("Este caballo ya existe");
+                    }
+                }
+                else if (frmTpt.esAvion)
+                {
+                    if (frmTpt.DialogResult == DialogResult.OK && !ExisteTransporte(frmTpt.nuevoAvion, aviones))
+                    {
+                        this.aviones += frmTpt.nuevoAvion;
+                        ActualizarVisor(this.lstVisorAviones, this.aviones);
+                    }
+                    else
+                    {
+                        throw new TransporteRepetidoExcepcion("Este avión ya existe");
+                    }
                 }
             }
-            else if (frmTpt.esCaballo)
+            catch (TransporteRepetidoExcepcion ex)
             {
-                if (frmTpt.DialogResult == DialogResult.OK && !ExisteTransporte(frmTpt.nuevoCaballo, caballos))
-                {
-                    this.caballos += frmTpt.nuevoCaballo;
-                    ActualizarVisor(this.lstVisorCaballos, this.caballos);
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
 
-                }
-            }
-            else if (frmTpt.esAvion)
-            {
-                if (frmTpt.DialogResult == DialogResult.OK && !ExisteTransporte(frmTpt.nuevoAvion, aviones))
-                {
-                    this.aviones += frmTpt.nuevoAvion;
-                    ActualizarVisor(this.lstVisorAviones, this.aviones);
-                }
-            }
         }
 
         private void btnModificar_Click(object sender, EventArgs e)
