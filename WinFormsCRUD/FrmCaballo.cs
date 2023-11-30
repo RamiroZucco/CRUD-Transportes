@@ -13,7 +13,7 @@ using System.Windows.Forms;
 
 namespace WinFormsCRUD
 {
-    public partial class FrmCaballo : Form, IValidadora
+    public partial class FrmCaballo : Form, IValidadora, IModificadoraDeTexto
     {
         public Caballo caballo;
 
@@ -55,6 +55,8 @@ namespace WinFormsCRUD
                 MessageBox.Show("El nombre solo puede contener letras.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            nombre = Capitalize(nombre);
+
 
             if (Enum.TryParse(this.txtVelocidad.Text, out EVelocidad velocidad) &&
                 Enum.TryParse(this.txtCarga.Text, out ECarga carga) &&
@@ -79,6 +81,15 @@ namespace WinFormsCRUD
         bool IValidadora.ValidarTexto(string texto)
         {
             return System.Text.RegularExpressions.Regex.IsMatch(texto, @"^[a-zA-Z]+$");
+        }
+
+        public string Capitalize(string input)
+        {
+            if (string.IsNullOrEmpty(input))
+            {
+                return input;
+            }
+            return char.ToUpper(input[0]) + input.Substring(1).ToLower();
         }
     }
 }

@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace WinFormsCRUD
 {
-    public partial class FrmAuto : Form
+    public partial class FrmAuto : Form, IValidadora
     {
         public Auto auto;
         public FrmAuto()
@@ -47,7 +47,7 @@ namespace WinFormsCRUD
 
             string patente = this.txtPatente.Text;
 
-            if (!Regex.IsMatch(patente, "^[0-9]{2}$"))
+            if (!((IValidadora)this).ValidarTexto(patente))
             {
                 MessageBox.Show("Deben ser unicamente los ultimos 2 numeros de la patente.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -77,6 +77,11 @@ namespace WinFormsCRUD
         private void btnCancelar_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;
+        }
+
+        bool IValidadora.ValidarTexto(string texto)
+        {
+            return System.Text.RegularExpressions.Regex.IsMatch(texto, @"^[0-9]{2}$");
         }
     }
 }
