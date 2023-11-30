@@ -18,7 +18,7 @@ using System.Linq.Expressions;
 
 namespace WinFormsCRUD
 {
-    public partial class FrmPrincipal : Form
+    public partial class FrmPrincipal : Form, IPrincipal<Transporte>
     {
         private ColeccionTransportes<Transporte> caballos;
         private ColeccionTransportes<Transporte> autos;
@@ -61,7 +61,7 @@ namespace WinFormsCRUD
             frmTpt.ShowDialog();
             if (frmTpt.esAuto)
             {
-                if (frmTpt.DialogResult == DialogResult.OK)
+                if (frmTpt.DialogResult == DialogResult.OK && !ExisteTransporte(frmTpt.nuevoAuto,autos))
                 {
                     this.autos += frmTpt.nuevoAuto;
                     ActualizarVisor(this.lstVisorAutos, this.autos);
@@ -69,7 +69,7 @@ namespace WinFormsCRUD
             }
             else if (frmTpt.esCaballo)
             {
-                if (frmTpt.DialogResult == DialogResult.OK)
+                if (frmTpt.DialogResult == DialogResult.OK && !ExisteTransporte(frmTpt.nuevoCaballo, caballos))
                 {
                     this.caballos += frmTpt.nuevoCaballo;
                     ActualizarVisor(this.lstVisorCaballos, this.caballos);
@@ -78,7 +78,7 @@ namespace WinFormsCRUD
             }
             else if (frmTpt.esAvion)
             {
-                if (frmTpt.DialogResult == DialogResult.OK)
+                if (frmTpt.DialogResult == DialogResult.OK && !ExisteTransporte(frmTpt.nuevoAvion, aviones))
                 {
                     this.aviones += frmTpt.nuevoAvion;
                     ActualizarVisor(this.lstVisorAviones, this.aviones);
@@ -335,6 +335,18 @@ namespace WinFormsCRUD
             {
                 listBox.Items.Add(transporte.ToString());
             }
+        }
+
+        public bool ExisteTransporte<T>(T nuevoT, ColeccionTransportes<T> c) where T : Transporte
+        {
+            foreach (Transporte t in c.ListaTransportes)
+            {
+                if (t is T tExistente && tExistente == nuevoT)
+                {
+                    return true; 
+                }
+            }
+            return false; 
         }
     }
 }
