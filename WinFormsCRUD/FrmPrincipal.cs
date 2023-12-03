@@ -25,6 +25,7 @@ namespace WinFormsCRUD
         private ColeccionTransportes<Transporte> aviones;
         private ToolStripStatusLabel toolStripStatusLabelNombreOperador;
         private StatusStrip statusStrip;
+        private Usuario usuario;
 
         public FrmPrincipal(Usuario usuario)
         {
@@ -39,6 +40,7 @@ namespace WinFormsCRUD
             toolStripStatusLabelNombreOperador.Text = "Usuario: " + usuario.nombre + " Fecha: " + DateTime.Now.ToString("dd/MM/yyyy");
             statusStrip.Items.Add(toolStripStatusLabelNombreOperador);
             Controls.Add(statusStrip);
+            this.usuario = usuario;
 
             string rutaArchivoLog = "usuarios.log";
             try
