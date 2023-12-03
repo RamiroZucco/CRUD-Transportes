@@ -26,6 +26,7 @@ namespace WinFormsCRUD
         private ToolStripStatusLabel toolStripStatusLabelNombreOperador;
         private StatusStrip statusStrip;
         private Usuario usuario;
+        private SQL sql;
 
         public FrmPrincipal(Usuario usuario)
         {
@@ -41,6 +42,7 @@ namespace WinFormsCRUD
             statusStrip.Items.Add(toolStripStatusLabelNombreOperador);
             Controls.Add(statusStrip);
             this.usuario = usuario;
+            this.sql = new SQL();
 
             string rutaArchivoLog = "usuarios.log";
             try
@@ -65,21 +67,24 @@ namespace WinFormsCRUD
                 frmTpt.ShowDialog();
                 if (frmTpt.esAuto)
                 {
-                    if (frmTpt.DialogResult == DialogResult.OK && !ExisteTransporte(frmTpt.nuevoAuto, autos))
+                    if (frmTpt.DialogResult == DialogResult.OK)
                     {
-                        this.autos += frmTpt.nuevoAuto;
-                        ActualizarVisor(this.lstVisorAutos, this.autos);
-                    }
-                    else
-                    {
-                        throw new TransporteRepetidoExcepcion("Este auto ya existe");
+                        if(!ExisteTransporte(frmTpt.nuevoAuto, autos))
+                        {
+                            sql.AgregarAuto(frmTpt.nuevoAuto, this.autos);
+                            ActualizarVisor(this.lstVisorAutos, this.autos);
+                        }
+                        else
+                        {
+                            throw new TransporteRepetidoExcepcion("Ya hay un transporte con estas características disponible, regrese mas tarde");
+                        }
                     }
                 }
                 else if (frmTpt.esCaballo)
                 {
                     if (frmTpt.DialogResult == DialogResult.OK && !ExisteTransporte(frmTpt.nuevoCaballo, caballos))
                     {
-                        this.caballos += frmTpt.nuevoCaballo;
+                        sql.AgregarCaballo(frmTpt.nuevoCaballo, this.caballos);
                         ActualizarVisor(this.lstVisorCaballos, this.caballos);
                     }
                     else
@@ -91,12 +96,12 @@ namespace WinFormsCRUD
                 {
                     if (frmTpt.DialogResult == DialogResult.OK && !ExisteTransporte(frmTpt.nuevoAvion, aviones))
                     {
-                        this.aviones += frmTpt.nuevoAvion;
+                        sql.AgregarAvion(frmTpt.nuevoAvion, this.aviones);
                         ActualizarVisor(this.lstVisorAviones, this.aviones);
                     }
                     else
                     {
-                        throw new TransporteRepetidoExcepcion("Este avión ya existe");
+                        throw new TransporteRepetidoExcepcion("Este avión ya existe"); //SOLUCIONAR ESTOOOOOOOO
                     }
                 }
             }
@@ -123,6 +128,7 @@ namespace WinFormsCRUD
                     if (frm1.DialogResult == DialogResult.OK)
                     {
                         this.caballos.ListaTransportes[indiceCaballos] = frm1.caballo;
+                        sql.ModificarCaballo(frm1.caballo);
                         ActualizarVisor(this.lstVisorCaballos, this.caballos);
                     }
                 }
@@ -137,6 +143,7 @@ namespace WinFormsCRUD
                     if (frm2.DialogResult == DialogResult.OK)
                     {
                         this.autos.ListaTransportes[indiceAutos] = frm2.auto;
+                        sql.ModificarAuto(frm2.auto);
                         ActualizarVisor(this.lstVisorAutos, this.autos);
                     }
                 }
@@ -151,6 +158,7 @@ namespace WinFormsCRUD
                     if (frm3.DialogResult == DialogResult.OK)
                     {
                         this.aviones.ListaTransportes[indiceAviones] = frm3.avion;
+                        sql.ModificarAvion(a);
                         ActualizarVisor(this.lstVisorAviones, this.aviones);
                     }
                 }
@@ -175,7 +183,7 @@ namespace WinFormsCRUD
 
                 if (result == DialogResult.Yes)
                 {
-                    this.autos -= auto;
+                    sql.BorrarAuto((Auto)auto, this.autos);
                     ActualizarVisor(this.lstVisorAutos, this.autos);
                 }
             }
@@ -186,7 +194,7 @@ namespace WinFormsCRUD
 
                 if (result == DialogResult.Yes)
                 {
-                    this.aviones -= avion;
+                    sql.BorrarAvion((Avion)avion,this.aviones);
                     ActualizarVisor(this.lstVisorAviones, this.aviones);
                 }
             }
@@ -198,7 +206,7 @@ namespace WinFormsCRUD
 
                  if (result == DialogResult.Yes)
                  {
-                    this.caballos -= caballo;
+                    sql.BorrarCaballo((Caballo)caballo, this.caballos);
                     ActualizarVisor(this.lstVisorCaballos, this.caballos);
                 }
                 

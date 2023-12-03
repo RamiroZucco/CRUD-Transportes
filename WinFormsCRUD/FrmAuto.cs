@@ -49,7 +49,7 @@ namespace WinFormsCRUD
 
             if (!((IValidadora)this).ValidarTexto(patente))
             {
-                MessageBox.Show("Deben ser unicamente los ultimos 2 numeros de la patente.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Deben ser unicamente los ultimos 3 numeros de la patente.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -81,7 +81,7 @@ namespace WinFormsCRUD
 
         bool IValidadora.ValidarTexto(string texto)
         {
-            return System.Text.RegularExpressions.Regex.IsMatch(texto, @"^[0-9]{2}$");
+            return System.Text.RegularExpressions.Regex.IsMatch(texto, @"^[0-9]{3}$");
         }
     }
 }
