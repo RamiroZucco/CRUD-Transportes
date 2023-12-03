@@ -76,33 +76,42 @@ namespace WinFormsCRUD
                         }
                         else
                         {
-                            throw new TransporteRepetidoExcepcion("Ya hay un transporte con estas características disponible, regrese mas tarde");
+                            throw new TransporteRepetidoExcepcion("Ya hay un auto con estas características disponible, espere a que se ocupe");
                         }
                     }
+                    
                 }
                 else if (frmTpt.esCaballo)
                 {
-                    if (frmTpt.DialogResult == DialogResult.OK && !ExisteTransporte(frmTpt.nuevoCaballo, caballos))
+                    if (frmTpt.DialogResult == DialogResult.OK)
                     {
-                        sql.AgregarCaballo(frmTpt.nuevoCaballo, this.caballos);
-                        ActualizarVisor(this.lstVisorCaballos, this.caballos);
-                    }
-                    else
-                    {
-                        throw new TransporteRepetidoExcepcion("Este caballo ya existe");
+                        if (!ExisteTransporte(frmTpt.nuevoCaballo, caballos))
+                        {
+                            sql.AgregarCaballo(frmTpt.nuevoCaballo, this.caballos);
+                            ActualizarVisor(this.lstVisorCaballos, this.caballos);
+                        }
+                        else
+                        {
+                            throw new TransporteRepetidoExcepcion("Ya hay un caballo con estas características disponible, espere a que se ocupe");
+                        }
                     }
                 }
                 else if (frmTpt.esAvion)
                 {
-                    if (frmTpt.DialogResult == DialogResult.OK && !ExisteTransporte(frmTpt.nuevoAvion, aviones))
+                    if (frmTpt.DialogResult == DialogResult.OK)
                     {
-                        sql.AgregarAvion(frmTpt.nuevoAvion, this.aviones);
-                        ActualizarVisor(this.lstVisorAviones, this.aviones);
+                        if (!ExisteTransporte(frmTpt.nuevoAvion, aviones))
+                        {
+                            sql.AgregarAvion(frmTpt.nuevoAvion, this.aviones);
+                            ActualizarVisor(this.lstVisorAviones, this.aviones);
+                        }
+                        else
+                        {
+                            throw new TransporteRepetidoExcepcion("Ya hay un avion con estas características disponible, espere a que se ocupe");
+                        }
+
                     }
-                    else
-                    {
-                        throw new TransporteRepetidoExcepcion("Este avión ya existe"); //SOLUCIONAR ESTOOOOOOOO
-                    }
+                    
                 }
             }
             catch (TransporteRepetidoExcepcion ex)

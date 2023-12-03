@@ -118,9 +118,9 @@
             lblPatente.ForeColor = Color.Maroon;
             lblPatente.Location = new Point(37, 216);
             lblPatente.Name = "lblPatente";
-            lblPatente.Size = new Size(184, 16);
+            lblPatente.Size = new Size(198, 16);
             lblPatente.TabIndex = 26;
-            lblPatente.Text = "Últimos 2 numeros de patente";
+            lblPatente.Text = "Últimos 3 números de la patente";
             lblPatente.TextAlign = ContentAlignment.TopCenter;
             // 
             // lblCarga
