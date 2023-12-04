@@ -169,14 +169,14 @@ namespace Entidades
                 this.comando = new SqlCommand();
 
                 this.comando.Parameters.AddWithValue("@cantidadPasajeros", auto.CantidadPasajeros);
-                this.comando.Parameters.AddWithValue("@velocidadMaxima", (int)auto.VelocidadMaxima);
-                this.comando.Parameters.AddWithValue("@carga", (int)auto.Carga);
+                this.comando.Parameters.AddWithValue("@velocidadMaxima", auto.VelocidadMaxima.ToString());
+                this.comando.Parameters.AddWithValue("@carga", auto.Carga.ToString());
                 this.comando.Parameters.AddWithValue("@cantidadDePuertas", auto.CantidadDePuertas);
                 this.comando.Parameters.AddWithValue("@numerosPatente", auto.NumerosPatente);
 
                 this.comando.CommandType = System.Data.CommandType.Text;
-                this.comando.CommandText = @"UPDATE auto SET cantidadDePuertas = @cantidadDePuertas, numerosPatente = @numerosPatente
-                                            WHERE cantidadPasajeros = @cantidadPasajeros AND velocidadMaxima = @velocidadMaxima AND carga = @carga";
+                this.comando.CommandText = @"UPDATE auto SET cantidadDePuertas = @cantidadDePuertas, numerosPatente = @numerosPatente, cantidadPasajeros = @cantidadPasajeros, velocidadMaxima = @velocidadMaxima, carga = @carga
+                                            WHERE numerosPatente = @numerosPatente";
                 this.comando.Connection = this.conexion;
 
                 this.conexion.Open();
@@ -211,14 +211,14 @@ namespace Entidades
                 this.comando = new SqlCommand();
 
                 this.comando.Parameters.AddWithValue("@cantidadPasajeros", caballo.CantidadPasajeros);
-                this.comando.Parameters.AddWithValue("@velocidadMaxima", (int)caballo.VelocidadMaxima);
-                this.comando.Parameters.AddWithValue("@carga", (int)caballo.Carga);
+                this.comando.Parameters.AddWithValue("@velocidadMaxima", caballo.VelocidadMaxima.ToString());
+                this.comando.Parameters.AddWithValue("@carga", caballo.Carga.ToString());
                 this.comando.Parameters.AddWithValue("@nombre", caballo.Nombre);
-                this.comando.Parameters.AddWithValue("@color", (int)caballo.Color);
+                this.comando.Parameters.AddWithValue("@color", caballo.Color.ToString());
 
                 this.comando.CommandType = System.Data.CommandType.Text;
-                this.comando.CommandText = @"UPDATE caballo SET nombre = @nombre, color = @color
-                                            WHERE cantidadPasajeros = @cantidadPasajeros AND velocidadMaxima = @velocidadMaxima AND carga = @carga";
+                this.comando.CommandText = @"UPDATE caballo SET nombre = @nombre, color = @color, cantidadPasajeros = @cantidadPasajeros, velocidadMaxima = @velocidadMaxima, carga = @carga
+                                            WHERE nombre = @nombre";
                 this.comando.Connection = this.conexion;
 
                 this.conexion.Open();
@@ -253,14 +253,14 @@ namespace Entidades
                 this.comando = new SqlCommand();
 
                 this.comando.Parameters.AddWithValue("@cantidadPasajeros", avion.CantidadPasajeros);
-                this.comando.Parameters.AddWithValue("@velocidadMaxima", (int)avion.VelocidadMaxima);
-                this.comando.Parameters.AddWithValue("@carga", (int)avion.Carga);
+                this.comando.Parameters.AddWithValue("@velocidadMaxima", avion.VelocidadMaxima.ToString());
+                this.comando.Parameters.AddWithValue("@carga", avion.Carga.ToString());
                 this.comando.Parameters.AddWithValue("@modelo", avion.Modelo);
                 this.comando.Parameters.AddWithValue("@cantidadDeVentanas", avion.CantidadDeVentanas);
 
                 this.comando.CommandType = System.Data.CommandType.Text;
-                this.comando.CommandText = @"UPDATE avion SET modelo = @modelo, cantidadDeVentanas = @cantidadDeVentanas
-                                            WHERE cantidadPasajeros = @cantidadPasajeros AND velocidadMaxima = @velocidadMaxima AND carga = @carga";
+                this.comando.CommandText = @"UPDATE avion SET modelo = @modelo, cantidadDeVentanas = @cantidadDeVentanas, cantidadPasajeros = @cantidadPasajeros, velocidadMaxima = @velocidadMaxima, carga = @carga 
+                                            WHERE modelo = @modelo";
                 this.comando.Connection = this.conexion;
 
                 this.conexion.Open();
@@ -272,7 +272,10 @@ namespace Entidades
                     retorno = true;
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+            }
             finally
             {
                 if (this.conexion.State == System.Data.ConnectionState.Open)
@@ -548,8 +551,6 @@ namespace Entidades
             }
         }
     }
-
-
 
 }
 

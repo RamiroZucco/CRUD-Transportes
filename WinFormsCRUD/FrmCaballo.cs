@@ -31,6 +31,7 @@ namespace WinFormsCRUD
             {
                 this.txtNombre.Text = caballoEspecifico.Nombre.ToString();
                 this.txtColor.Text = caballoEspecifico.Color.ToString();
+                this.txtNombre.Enabled = false;
             }
         }
 

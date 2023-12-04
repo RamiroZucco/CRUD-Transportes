@@ -29,6 +29,7 @@ namespace WinFormsCRUD
             {
                 this.txtModelo.Text = avionEspecifico.Modelo.ToString();
                 this.txtCantVentanas.Text = avionEspecifico.CantidadDeVentanas.ToString();
+                this.txtModelo.Enabled = false;
             }
         }
 

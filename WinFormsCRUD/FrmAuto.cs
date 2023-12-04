@@ -28,6 +28,7 @@ namespace WinFormsCRUD
             {
                 this.txtPatente.Text = autoEspecifico.NumerosPatente.ToString();
                 this.txtPuertas.Text = autoEspecifico.CantidadDePuertas.ToString();
+                this.txtPatente.Enabled = false;
             }
         }
 
