@@ -57,6 +57,7 @@
             btnGuardarAutos = new Button();
             btnCargarAviones = new Button();
             btnGuardarAviones = new Button();
+            lblCronometro = new Label();
             ((System.ComponentModel.ISupportInitialize)picCaballo).BeginInit();
             ((System.ComponentModel.ISupportInitialize)picAuto).BeginInit();
             ((System.ComponentModel.ISupportInitialize)picAviones).BeginInit();
@@ -411,11 +412,23 @@
             btnGuardarAviones.UseVisualStyleBackColor = false;
             btnGuardarAviones.Click += btnGuardarAviones_Click;
             // 
+            // lblCronometro
+            // 
+            lblCronometro.AutoSize = true;
+            lblCronometro.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            lblCronometro.ForeColor = SystemColors.ControlText;
+            lblCronometro.Location = new Point(643, 9);
+            lblCronometro.Name = "lblCronometro";
+            lblCronometro.Size = new Size(0, 16);
+            lblCronometro.TabIndex = 29;
+            lblCronometro.TextAlign = ContentAlignment.TopCenter;
+            // 
             // FrmPrincipal
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1436, 640);
+            Controls.Add(lblCronometro);
             Controls.Add(btnGuardarAviones);
             Controls.Add(btnCargarAviones);
             Controls.Add(btnGuardarAutos);
@@ -487,5 +500,6 @@
         private Button btnGuardarAutos;
         private Button btnCargarAviones;
         private Button btnGuardarAviones;
+        private Label lblCronometro;
     }
 }

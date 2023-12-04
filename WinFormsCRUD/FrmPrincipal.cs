@@ -32,6 +32,8 @@ namespace WinFormsCRUD
         public event Action PermisoRechazado;
         public event Action ObjetoRepetido;
         public event CambioColorBotones CambioDeColor;
+        private CancellationTokenSource tokenCancelacion;
+        private Task taskCronometro;
 
         public FrmPrincipal(Usuario usuario)
         {
@@ -310,6 +312,8 @@ namespace WinFormsCRUD
             ActualizarVisor(this.lstVisorAviones, this.aviones);
             ActualizarVisor(this.lstVisorAutos, this.autos);
             ActualizarVisor(this.lstVisorCaballos, this.caballos);
+            this.tokenCancelacion = new CancellationTokenSource();
+            this.taskCronometro = Task.Run(() => ArrancarCronometro(tokenCancelacion.Token), tokenCancelacion.Token);
         }
         private void FrmPrincipal_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -319,6 +323,11 @@ namespace WinFormsCRUD
                 if (dg == DialogResult.No)
                 {
                     e.Cancel = true;
+                }
+                else
+                {
+                    this.tokenCancelacion.Cancel();
+                    this.DialogResult = DialogResult.OK;
                 }
             }
         }
@@ -474,6 +483,30 @@ namespace WinFormsCRUD
                 }
             }
             return false;
+        }
+
+        private void ArrancarCronometro(CancellationToken tokenCancelacion)
+        {
+            int seg = 1;
+            int horas = seg / 3600;
+            int min = (seg % 3600) / 60;
+            int segContando = seg % 60;
+
+            while (!tokenCancelacion.IsCancellationRequested)
+            {
+                this.Invoke(new Action<string>(ActualizarLabel), $"Tiempo total en la app: {horas:D2}:{min:D2}:{segContando:D2}");
+
+                Thread.Sleep(1000);
+
+                seg++;
+                horas = seg / 3600;
+                min = (seg % 3600) / 60;
+                segContando = seg % 60;
+            }
+        }
+        private void ActualizarLabel(string textoHora)
+        {
+            this.lblCronometro.Text = textoHora;
         }
     }
 }
