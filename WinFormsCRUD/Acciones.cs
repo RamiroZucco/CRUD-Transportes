@@ -15,19 +15,18 @@ namespace WinFormsCRUD
         }
         public static void TransporteRepetido(string nombre)
         {
-            MessageBox.Show($"El transporte con esta característica: '{nombre}' debe esperar a que otro transporte con las mismas caracteristicas sea eliminado u ocupado.", "Transporte repetido",
+            MessageBox.Show($"El transporte con esta característica: '{nombre}' debe esperar a que otro transporte con los mismos pasajeros y misma carga sea eliminado u ocupado.", "Transporte repetido",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
-
         public static Color CambiarDeColorBtns(bool permiso)
         {
             if (permiso)
             {
-                return Color.LightCoral;
+                return Color.Maroon;
             }
             else
             {
-                return Color.Maroon;
+                return Color.LightCoral; 
             }
         }
     }

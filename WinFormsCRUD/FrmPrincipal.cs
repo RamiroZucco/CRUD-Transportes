@@ -18,6 +18,8 @@ using System.Linq.Expressions;
 
 namespace WinFormsCRUD
 {
+    public delegate void Action(string nombre);
+    public delegate Color CambioColorBotones(bool permiso);
     public partial class FrmPrincipal : Form, IPrincipal<Transporte>
     {
         private ColeccionTransportes<Transporte> caballos;
@@ -27,6 +29,9 @@ namespace WinFormsCRUD
         private StatusStrip statusStrip;
         private Usuario usuario;
         private SQL sql;
+        public event Action PermisoRechazado;
+        public event Action ObjetoRepetido;
+        public event CambioColorBotones CambioDeColor;
 
         public FrmPrincipal(Usuario usuario)
         {
@@ -35,14 +40,21 @@ namespace WinFormsCRUD
             this.caballos = new ColeccionTransportes<Transporte>();
             this.autos = new ColeccionTransportes<Transporte>();
             this.aviones = new ColeccionTransportes<Transporte>();
+
             statusStrip = new StatusStrip();
             statusStrip.Dock = DockStyle.Top;
             toolStripStatusLabelNombreOperador = new ToolStripStatusLabel();
             toolStripStatusLabelNombreOperador.Text = "Usuario: " + usuario.nombre + " Fecha: " + DateTime.Now.ToString("dd/MM/yyyy");
             statusStrip.Items.Add(toolStripStatusLabelNombreOperador);
             Controls.Add(statusStrip);
+
             this.usuario = usuario;
+
             this.sql = new SQL();
+
+            this.PermisoRechazado += Acciones.UsuarioIncorrecto;
+            this.ObjetoRepetido += Acciones.TransporteRepetido;
+            this.CambioDeColor += Acciones.CambiarDeColorBtns;
 
             string rutaArchivoLog = "usuarios.log";
             try
@@ -60,7 +72,7 @@ namespace WinFormsCRUD
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
-            if(usuario.perfil != "vendedor")
+            if (usuario.perfil != "vendedor")
             {
                 try
                 {
@@ -78,7 +90,7 @@ namespace WinFormsCRUD
                             }
                             else
                             {
-                                throw new TransporteRepetidoExcepcion("Ya hay un auto con estas características disponible, espere a que se ocupe");
+                                throw new TransporteRepetidoExcepcion("No se agregó el auto");
                             }
                         }
 
@@ -94,7 +106,7 @@ namespace WinFormsCRUD
                             }
                             else
                             {
-                                throw new TransporteRepetidoExcepcion("Ya hay un caballo con estas características disponible, espere a que se ocupe");
+                                throw new TransporteRepetidoExcepcion("No se agregó el caballo");
                             }
                         }
                     }
@@ -109,7 +121,7 @@ namespace WinFormsCRUD
                             }
                             else
                             {
-                                throw new TransporteRepetidoExcepcion("Ya hay un avion con estas características disponible, espere a que se ocupe");
+                                throw new TransporteRepetidoExcepcion("No se agregó el avión");
                             }
 
                         }
@@ -120,6 +132,10 @@ namespace WinFormsCRUD
                 {
                     MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+            }
+            else
+            {
+                this.PermisoRechazado.Invoke(usuario.nombre);
             }
         }
 
@@ -181,7 +197,11 @@ namespace WinFormsCRUD
                     return;
                 }
             }
-            
+            else
+            {
+                this.PermisoRechazado.Invoke(usuario.nombre);
+            }
+
         }
 
         private void btnEliminar_Click(object sender, EventArgs e)
@@ -232,6 +252,10 @@ namespace WinFormsCRUD
                 {
                     MessageBox.Show("No se pudo eliminar el transporte", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+            }
+            else
+            {
+                this.PermisoRechazado.Invoke(usuario.nombre);
             }
         }
 
@@ -371,7 +395,7 @@ namespace WinFormsCRUD
 
         private void btnCargarAviones_Click(object sender, EventArgs e)
         {
-            Deserializar(this.aviones,lstVisorAviones);
+            Deserializar(this.aviones, lstVisorAviones);
         }
 
         private void btnGuardarAviones_Click(object sender, EventArgs e)
@@ -388,16 +412,68 @@ namespace WinFormsCRUD
             }
         }
 
+        private void btnAgregar_MouseEnter(object sender, EventArgs e)
+        {
+            bool valido = false;
+
+            if (usuario.perfil != "vendedor")
+            {
+                valido = true;
+            }
+
+            this.btnAgregar.BackColor = this.CambioDeColor.Invoke(valido);
+        }
+
+        private void btnAgregar_MouseLeave(object sender, EventArgs e)
+        {
+            this.btnAgregar.BackColor = Color.LightCoral;
+        }
+
+        private void btnModificar_MouseEnter(object sender, EventArgs e)
+        {
+            bool valido = false;
+
+            if (usuario.perfil == "administrador" || usuario.perfil == "supervisor")
+            {
+                valido = true;
+            }
+
+            this.btnModificar.BackColor = this.CambioDeColor.Invoke(valido);
+        }
+
+        private void btnModificar_MouseLeave(object sender, EventArgs e)
+        {
+            this.btnModificar.BackColor = Color.LightCoral;
+        }
+
+        private void btnEliminar_MouseEnter(object sender, EventArgs e)
+        {
+            bool valido = false;
+
+            if (this.usuario.perfil == "administrador")
+            {
+                valido = true;
+            }
+
+            this.btnEliminar.BackColor = this.CambioDeColor.Invoke(valido);
+        }
+
+        private void btnEliminar_MouseLeave(object sender, EventArgs e)
+        {
+            this.btnEliminar.BackColor = Color.LightCoral;
+        }
+
         public bool ExisteTransporte<T>(T nuevoT, ColeccionTransportes<T> c) where T : Transporte
         {
             foreach (Transporte t in c.ListaTransportes)
             {
                 if (t is T tExistente && tExistente == nuevoT)
                 {
-                    return true; 
+                    this.ObjetoRepetido.Invoke(nuevoT.ToString());
+                    return true;
                 }
             }
-            return false; 
+            return false;
         }
     }
 }
