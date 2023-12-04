@@ -60,65 +60,67 @@ namespace WinFormsCRUD
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
-            try
+            if(usuario.perfil != "vendedor")
             {
-                FrmTransporte frmTpt = new FrmTransporte();
-                frmTpt.StartPosition = FormStartPosition.CenterScreen;
-                frmTpt.ShowDialog();
-                if (frmTpt.esAuto)
+                try
                 {
-                    if (frmTpt.DialogResult == DialogResult.OK)
+                    FrmTransporte frmTpt = new FrmTransporte();
+                    frmTpt.StartPosition = FormStartPosition.CenterScreen;
+                    frmTpt.ShowDialog();
+                    if (frmTpt.esAuto)
                     {
-                        if(!ExisteTransporte(frmTpt.nuevoAuto, autos))
+                        if (frmTpt.DialogResult == DialogResult.OK)
                         {
-                            sql.AgregarAuto(frmTpt.nuevoAuto, this.autos);
-                            ActualizarVisor(this.lstVisorAutos, this.autos);
-                        }
-                        else
-                        {
-                            throw new TransporteRepetidoExcepcion("Ya hay un auto con estas características disponible, espere a que se ocupe");
-                        }
-                    }
-                    
-                }
-                else if (frmTpt.esCaballo)
-                {
-                    if (frmTpt.DialogResult == DialogResult.OK)
-                    {
-                        if (!ExisteTransporte(frmTpt.nuevoCaballo, caballos))
-                        {
-                            sql.AgregarCaballo(frmTpt.nuevoCaballo, this.caballos);
-                            ActualizarVisor(this.lstVisorCaballos, this.caballos);
-                        }
-                        else
-                        {
-                            throw new TransporteRepetidoExcepcion("Ya hay un caballo con estas características disponible, espere a que se ocupe");
-                        }
-                    }
-                }
-                else if (frmTpt.esAvion)
-                {
-                    if (frmTpt.DialogResult == DialogResult.OK)
-                    {
-                        if (!ExisteTransporte(frmTpt.nuevoAvion, aviones))
-                        {
-                            sql.AgregarAvion(frmTpt.nuevoAvion, this.aviones);
-                            ActualizarVisor(this.lstVisorAviones, this.aviones);
-                        }
-                        else
-                        {
-                            throw new TransporteRepetidoExcepcion("Ya hay un avion con estas características disponible, espere a que se ocupe");
+                            if (!ExisteTransporte(frmTpt.nuevoAuto, autos))
+                            {
+                                sql.AgregarAuto(frmTpt.nuevoAuto, this.autos);
+                                ActualizarVisor(this.lstVisorAutos, this.autos);
+                            }
+                            else
+                            {
+                                throw new TransporteRepetidoExcepcion("Ya hay un auto con estas características disponible, espere a que se ocupe");
+                            }
                         }
 
                     }
-                    
+                    else if (frmTpt.esCaballo)
+                    {
+                        if (frmTpt.DialogResult == DialogResult.OK)
+                        {
+                            if (!ExisteTransporte(frmTpt.nuevoCaballo, caballos))
+                            {
+                                sql.AgregarCaballo(frmTpt.nuevoCaballo, this.caballos);
+                                ActualizarVisor(this.lstVisorCaballos, this.caballos);
+                            }
+                            else
+                            {
+                                throw new TransporteRepetidoExcepcion("Ya hay un caballo con estas características disponible, espere a que se ocupe");
+                            }
+                        }
+                    }
+                    else if (frmTpt.esAvion)
+                    {
+                        if (frmTpt.DialogResult == DialogResult.OK)
+                        {
+                            if (!ExisteTransporte(frmTpt.nuevoAvion, aviones))
+                            {
+                                sql.AgregarAvion(frmTpt.nuevoAvion, this.aviones);
+                                ActualizarVisor(this.lstVisorAviones, this.aviones);
+                            }
+                            else
+                            {
+                                throw new TransporteRepetidoExcepcion("Ya hay un avion con estas características disponible, espere a que se ocupe");
+                            }
+
+                        }
+
+                    }
+                }
+                catch (TransporteRepetidoExcepcion ex)
+                {
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-            catch (TransporteRepetidoExcepcion ex)
-            {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
         }
 
         private void btnModificar_Click(object sender, EventArgs e)
@@ -127,55 +129,59 @@ namespace WinFormsCRUD
             int indiceAutos = this.lstVisorAutos.SelectedIndex;
             int indiceAviones = this.lstVisorAviones.SelectedIndex;
 
-            if (indiceCaballos >= 0)
+            if (usuario.perfil == "administrador" || usuario.perfil == "supervisor")
             {
-                Transporte transporte = this.caballos.ListaTransportes[indiceCaballos];
-                if (transporte is Caballo c)
+                if (indiceCaballos >= 0)
                 {
-                    FrmCaballo frm1 = new FrmCaballo(c);
-                    frm1.ShowDialog();
-                    if (frm1.DialogResult == DialogResult.OK)
+                    Transporte transporte = this.caballos.ListaTransportes[indiceCaballos];
+                    if (transporte is Caballo c)
                     {
-                        this.caballos.ListaTransportes[indiceCaballos] = frm1.caballo;
-                        sql.ModificarCaballo(frm1.caballo);
-                        ActualizarVisor(this.lstVisorCaballos, this.caballos);
+                        FrmCaballo frm1 = new FrmCaballo(c);
+                        frm1.ShowDialog();
+                        if (frm1.DialogResult == DialogResult.OK)
+                        {
+                            this.caballos.ListaTransportes[indiceCaballos] = frm1.caballo;
+                            sql.ModificarCaballo(frm1.caballo);
+                            ActualizarVisor(this.lstVisorCaballos, this.caballos);
+                        }
                     }
                 }
-            }
-            else if (indiceAutos >= 0)
-            {
-                Transporte transporte = this.autos.ListaTransportes[indiceAutos];
-                if (transporte is Auto a)
+                else if (indiceAutos >= 0)
                 {
-                    FrmAuto frm2 = new FrmAuto(a);
-                    frm2.ShowDialog();
-                    if (frm2.DialogResult == DialogResult.OK)
+                    Transporte transporte = this.autos.ListaTransportes[indiceAutos];
+                    if (transporte is Auto a)
                     {
-                        this.autos.ListaTransportes[indiceAutos] = frm2.auto;
-                        sql.ModificarAuto(frm2.auto);
-                        ActualizarVisor(this.lstVisorAutos, this.autos);
+                        FrmAuto frm2 = new FrmAuto(a);
+                        frm2.ShowDialog();
+                        if (frm2.DialogResult == DialogResult.OK)
+                        {
+                            this.autos.ListaTransportes[indiceAutos] = frm2.auto;
+                            sql.ModificarAuto(frm2.auto);
+                            ActualizarVisor(this.lstVisorAutos, this.autos);
+                        }
                     }
                 }
-            }
-            else if (indiceAviones >= 0)
-            {
-                Transporte transporte = this.aviones.ListaTransportes[indiceAviones];
-                if (transporte is Avion a)
+                else if (indiceAviones >= 0)
                 {
-                    FrmAvion frm3 = new FrmAvion(a);
-                    frm3.ShowDialog();
-                    if (frm3.DialogResult == DialogResult.OK)
+                    Transporte transporte = this.aviones.ListaTransportes[indiceAviones];
+                    if (transporte is Avion a)
                     {
-                        this.aviones.ListaTransportes[indiceAviones] = frm3.avion;
-                        sql.ModificarAvion(a);
-                        ActualizarVisor(this.lstVisorAviones, this.aviones);
+                        FrmAvion frm3 = new FrmAvion(a);
+                        frm3.ShowDialog();
+                        if (frm3.DialogResult == DialogResult.OK)
+                        {
+                            this.aviones.ListaTransportes[indiceAviones] = frm3.avion;
+                            sql.ModificarAvion(a);
+                            ActualizarVisor(this.lstVisorAviones, this.aviones);
+                        }
                     }
                 }
+                else
+                {
+                    return;
+                }
             }
-            else
-            {
-                return;
-            }
+            
         }
 
         private void btnEliminar_Click(object sender, EventArgs e)
@@ -184,46 +190,48 @@ namespace WinFormsCRUD
             int indiceAutos = this.lstVisorAutos.SelectedIndex;
             int indiceAviones = this.lstVisorAviones.SelectedIndex;
 
-
-            if (indiceAutos >= 0)
+            if (this.usuario.perfil == "administrador")
             {
-                Transporte auto = this.autos.ListaTransportes[indiceAutos];
-                DialogResult result = MessageBox.Show("¿Deseas eliminar este transporte?", "Confirmar eliminación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-                if (result == DialogResult.Yes)
+                if (indiceAutos >= 0)
                 {
-                    sql.BorrarAuto((Auto)auto, this.autos);
-                    ActualizarVisor(this.lstVisorAutos, this.autos);
-                }
-            }
-            else if (indiceAviones >= 0)
-            {
-                Transporte avion = this.aviones.ListaTransportes[indiceAviones];
-                DialogResult result = MessageBox.Show("¿Deseas eliminar este transporte?", "Confirmar eliminación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    Transporte auto = this.autos.ListaTransportes[indiceAutos];
+                    DialogResult result = MessageBox.Show("¿Deseas eliminar este transporte?", "Confirmar eliminación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-                if (result == DialogResult.Yes)
+                    if (result == DialogResult.Yes)
+                    {
+                        sql.BorrarAuto((Auto)auto, this.autos);
+                        ActualizarVisor(this.lstVisorAutos, this.autos);
+                    }
+                }
+                else if (indiceAviones >= 0)
                 {
-                    sql.BorrarAvion((Avion)avion,this.aviones);
-                    ActualizarVisor(this.lstVisorAviones, this.aviones);
+                    Transporte avion = this.aviones.ListaTransportes[indiceAviones];
+                    DialogResult result = MessageBox.Show("¿Deseas eliminar este transporte?", "Confirmar eliminación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                    if (result == DialogResult.Yes)
+                    {
+                        sql.BorrarAvion((Avion)avion, this.aviones);
+                        ActualizarVisor(this.lstVisorAviones, this.aviones);
+                    }
                 }
-            }
-            else if (indiceCaballos >= 0)
-            {
-                Transporte caballo = this.caballos.ListaTransportes[indiceCaballos];
+                else if (indiceCaballos >= 0)
+                {
+                    Transporte caballo = this.caballos.ListaTransportes[indiceCaballos];
 
-                 DialogResult result = MessageBox.Show("¿Deseas eliminar este transporte?", "Confirmar eliminación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    DialogResult result = MessageBox.Show("¿Deseas eliminar este transporte?", "Confirmar eliminación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-                 if (result == DialogResult.Yes)
-                 {
-                    sql.BorrarCaballo((Caballo)caballo, this.caballos);
-                    ActualizarVisor(this.lstVisorCaballos, this.caballos);
+                    if (result == DialogResult.Yes)
+                    {
+                        sql.BorrarCaballo((Caballo)caballo, this.caballos);
+                        ActualizarVisor(this.lstVisorCaballos, this.caballos);
+                    }
+
+
                 }
-                
-
-            }
-            else
-            {
-                MessageBox.Show("No se pudo eliminar el transporte", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                else
+                {
+                    MessageBox.Show("No se pudo eliminar el transporte", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 
