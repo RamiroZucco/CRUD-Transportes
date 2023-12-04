@@ -1,11 +1,14 @@
 using Entidades;
 namespace TestProyecto
 {
+    /// <summary>
+    /// Clase de tipo test con los métodos de testeo
+    /// </summary>
     [TestClass]
     public class TestTransportes
     {
         /// <summary>
-        /// Metodo de testeo que verifica la igualdad de dos autos iguales
+        /// Método de testeo que verifica la igualdad de dos autos iguales
         /// </summary>
         [TestMethod]
         public void VerificarAutosIgualesOk()
@@ -22,7 +25,7 @@ namespace TestProyecto
         }
         
         /// <summary>
-        /// Metodo de testeo que verifica la igualdad de dos autos distintos
+        /// Método de testeo que verifica la igualdad de dos autos distintos
         /// </summary>
         [TestMethod]
         public void VerificarAutosIgualesFalla()
@@ -36,7 +39,7 @@ namespace TestProyecto
         }
 
         /// <summary>
-        /// Metodo de testeo que verifica la igualdad de dos caballos iguales
+        /// Método de testeo que verifica la igualdad de dos caballos iguales
         /// </summary>
         [TestMethod]
         public void VerificarCaballosIgualesOk()
@@ -50,7 +53,7 @@ namespace TestProyecto
         }
 
         /// <summary>
-        /// Metodo de testeo que verifica la igualdad de dos caballos distintos
+        /// Método de testeo que verifica la igualdad de dos caballos distintos
         /// </summary>
         [TestMethod]
         public void VerificarCaballosIgualesFalla()
@@ -64,7 +67,7 @@ namespace TestProyecto
         }
 
         /// <summary>
-        /// Metodo de testeo que verifica si el parametro modelo no es null
+        /// Método de testeo que verifica si el parametro modelo no es null
         /// </summary>
         [TestMethod]
         public void VerificarModeloNoEsNull()
@@ -77,7 +80,7 @@ namespace TestProyecto
         }
 
         /// <summary>
-        /// Metodo de testeo que verifica si el parametro modelo es null
+        /// Método de testeo que verifica si el parametro modelo es null
         /// </summary>
         [TestMethod]
         public void VerificarModeloEsNull()

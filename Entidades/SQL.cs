@@ -7,6 +7,9 @@ using Microsoft.Data.SqlClient;
 
 namespace Entidades
 {
+    /// <summary>
+    /// Clase que me permite conectarme a la bdd y realizar un CRUD con la misma
+    /// </summary>
     public class SQL
     {
         private SqlConnection conexion;

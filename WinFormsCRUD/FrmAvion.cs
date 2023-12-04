@@ -12,6 +12,9 @@ using System.Windows.Forms;
 
 namespace WinFormsCRUD
 {
+    /// <summary>
+    /// Formulario para la creación o modificación de objetos de tipo Avión.
+    /// </summary>
     public partial class FrmAvion : Form
     {
         public Avion avion;
@@ -20,6 +23,10 @@ namespace WinFormsCRUD
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Inicializa una nueva instancia de la clase FrmAvion para la modificación de un objeto existente.
+        /// </summary>
+        /// <param name="avion">Objeto de tipo Transporte que se utilizará para prellenar los campos del formulario.</param>
         public FrmAvion(Transporte avion) : this()
         {
             this.txtCantPasajeros.Text = avion.CantidadPasajeros.ToString();
@@ -33,6 +40,10 @@ namespace WinFormsCRUD
             }
         }
 
+        /// <summary>
+        /// Evento que se ejecuta al hacer clic en el botón "Aceptar".
+        /// Valida la entrada de datos y crea un nuevo objeto de tipo Avion.
+        /// </summary>
         private void btnAceptar_Click(object sender, EventArgs e)
         {
             if (!int.TryParse(this.txtCantPasajeros.Text, out int cantidadPasajeros))
@@ -70,6 +81,10 @@ namespace WinFormsCRUD
             
         }
 
+        /// <summary>
+        /// Evento que se ejecuta al hacer clic en el botón "Cancelar".
+        /// Cierra el formulario sin realizar ninguna acción.
+        /// </summary>
         private void btnCancelar_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;

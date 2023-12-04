@@ -11,6 +11,9 @@ using System.Windows.Forms;
 
 namespace WinFormsCRUD
 {
+    /// <summary>
+    /// Clase que representa el formulario para elegir el tipo de transporte que quiero agregar.
+    /// </summary>
     public partial class FrmTransporte : Form
     {
         public Caballo nuevoCaballo;

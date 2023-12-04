@@ -11,6 +11,9 @@ using System.Windows.Forms;
 
 namespace WinFormsCRUD
 {
+    /// <summary>
+    /// Clase que representa el formulario de usuarios registrados.
+    /// </summary>
     public partial class FrmUsuariosRegistrados : Form
     {
         public FrmUsuariosRegistrados()
@@ -18,6 +21,10 @@ namespace WinFormsCRUD
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Maneja el evento de carga del formulario.
+        /// Carga y muestra los registros de usuarios desde el archivo de registro.
+        /// </summary>
         private void FrmUsuariosRegistrados_Load(object sender, EventArgs e)
         {
             string rutaArchivoLog = "usuarios.log";

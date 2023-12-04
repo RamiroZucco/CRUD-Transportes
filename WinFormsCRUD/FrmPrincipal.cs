@@ -20,6 +20,10 @@ namespace WinFormsCRUD
 {
     public delegate void Action(string nombre);
     public delegate Color CambioColorBotones(bool permiso);
+
+    /// <summary>
+    /// Clase que representa el formulario principal de la aplicación.
+    /// </summary>
     public partial class FrmPrincipal : Form, IPrincipal<Transporte>
     {
         private ColeccionTransportes<Transporte> caballos;
@@ -35,6 +39,10 @@ namespace WinFormsCRUD
         private CancellationTokenSource tokenCancelacion;
         private Task taskCronometro;
 
+        /// <summary>
+        /// Inicializa una nueva instancia de la clase FrmPrincipal.
+        /// </summary>
+        /// <param name="usuario">Usuario que ha iniciado sesión en la aplicación.</param>
         public FrmPrincipal(Usuario usuario)
         {
             InitializeComponent();
@@ -72,6 +80,9 @@ namespace WinFormsCRUD
             }
         }
 
+        /// <summary>
+        /// Maneja el evento de clic en el botón "Agregar".
+        /// </summary>
         private void btnAgregar_Click(object sender, EventArgs e)
         {
             if (usuario.perfil != "vendedor")
@@ -141,6 +152,9 @@ namespace WinFormsCRUD
             }
         }
 
+        /// <summary>
+        /// Maneja el evento de clic en el botón "Modificar".
+        /// </summary>
         private void btnModificar_Click(object sender, EventArgs e)
         {
             int indiceCaballos = this.lstVisorCaballos.SelectedIndex;
@@ -206,6 +220,9 @@ namespace WinFormsCRUD
 
         }
 
+        /// <summary>
+        /// Maneja el evento de clic en el botón "Eliminar".
+        /// </summary>
         private void btnEliminar_Click(object sender, EventArgs e)
         {
             int indiceCaballos = this.lstVisorCaballos.SelectedIndex;
@@ -261,6 +278,10 @@ namespace WinFormsCRUD
             }
         }
 
+        /// <summary>
+        /// Maneja el evento de clic en el botón "MasPasajeros".
+        /// Ordena las 3 colecciones de mas a menos pasajeros.
+        /// </summary>
         private void btnMasPasajeros_Click(object sender, EventArgs e)
         {
             this.aviones.OrdenarPorCantidadPasajerosDescendente();
@@ -271,6 +292,10 @@ namespace WinFormsCRUD
             ActualizarVisor(this.lstVisorCaballos, this.caballos);
         }
 
+        /// <summary>
+        /// Maneja el evento de clic en el botón "MenossPasajeros".
+        /// Ordena las 3 colecciones de menos a mas pasajeros.
+        /// </summary>
         private void btnMenosPasajeros_Click(object sender, EventArgs e)
         {
             this.aviones.OrdenarPorCantidadPasajerosAscendente();
@@ -282,6 +307,10 @@ namespace WinFormsCRUD
 
         }
 
+        /// <summary>
+        /// Maneja el evento de clic en el botón "MasVeloz".
+        /// Ordena las 3 colecciones de mas a menos rapidos.
+        /// </summary>
         private void btnMasVeloz_Click(object sender, EventArgs e)
         {
             this.aviones.OrdenarPorVelocidadMaximaDescendente();
@@ -293,6 +322,10 @@ namespace WinFormsCRUD
 
         }
 
+        /// <summary>
+        /// Maneja el evento de clic en el botón "button2".
+        /// Ordena las 3 colecciones de menos a mas rapidos.
+        /// </summary>
         private void button2_Click(object sender, EventArgs e)
         {
             this.aviones.OrdenarPorVelocidadMaximaAscendente();
@@ -304,6 +337,9 @@ namespace WinFormsCRUD
 
         }
 
+        /// <summary>
+        /// Maneja el evento de carga del formulario principal.
+        /// </summary>
         private void FrmPrincipal_Load(object sender, EventArgs e)
         {
             sql.CargarAutosBaseDeDatos(this.autos.ListaTransportes);
@@ -315,6 +351,10 @@ namespace WinFormsCRUD
             this.tokenCancelacion = new CancellationTokenSource();
             this.taskCronometro = Task.Run(() => ArrancarCronometro(tokenCancelacion.Token), tokenCancelacion.Token);
         }
+
+        /// <summary>
+        /// Maneja el evento de cierre del formulario principal.
+        /// </summary>
         private void FrmPrincipal_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (e.CloseReason == CloseReason.UserClosing)
@@ -332,6 +372,10 @@ namespace WinFormsCRUD
             }
         }
 
+        /// <summary>
+        /// Método para serializar una colección de transportes a un archivo XML.
+        /// </summary>
+        /// <param name="c">Colección de transportes a serializar.</param>
         private void Serializar(ColeccionTransportes<Transporte> c)
         {
             try
@@ -353,6 +397,11 @@ namespace WinFormsCRUD
             }
         }
 
+        /// <summary>
+        /// Método para deserializar una colección de transportes desde un archivo XML.
+        /// </summary>
+        /// <param name="c">Colección de transportes a deserializar.</param>
+        /// <param name="listBox">ListBox que se actualizará con los datos deserializados.</param>
         private void Deserializar(ColeccionTransportes<Transporte> c, ListBox listBox)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -376,6 +425,10 @@ namespace WinFormsCRUD
             }
         }
 
+        /// <summary>
+        /// Maneja el evento de clic en el botón "Usuarios Registrados".
+        /// Muestra formulario con los usuarios.
+        /// </summary>
         private void btnUsuariosRegistrados_Click(object sender, EventArgs e)
         {
             FrmUsuariosRegistrados frmUsuarios = new FrmUsuariosRegistrados();
@@ -412,6 +465,11 @@ namespace WinFormsCRUD
             Serializar(aviones);
         }
 
+        /// <summary>
+        /// Método para actualizar el visor de una ListBox con los datos de una colección de transportes.
+        /// </summary>
+        /// <param name="listBox">ListBox que se actualizará.</param>
+        /// <param name="coleccion">Colección de transportes con los datos actualizados.</param>
         private void ActualizarVisor(ListBox listBox, ColeccionTransportes<Transporte> coleccion)
         {
             listBox.Items.Clear();
@@ -472,6 +530,13 @@ namespace WinFormsCRUD
             this.btnEliminar.BackColor = Color.LightCoral;
         }
 
+        /// <summary>
+        /// Método para verificar si ya existe un transporte en una colección.
+        /// </summary>
+        /// <typeparam name="T">Tipo de transporte a verificar.</typeparam>
+        /// <param name="nuevoT">Nuevo transporte a verificar.</param>
+        /// <param name="c">Colección en la que se verificará la existencia del transporte.</param>
+        /// <returns>True si el transporte ya existe, False si no.</returns>
         public bool ExisteTransporte<T>(T nuevoT, ColeccionTransportes<T> c) where T : Transporte
         {
             foreach (Transporte t in c.ListaTransportes)
@@ -485,6 +550,10 @@ namespace WinFormsCRUD
             return false;
         }
 
+        /// <summary>
+        /// Método para iniciar el cronómetro en un hilo separado.
+        /// </summary>
+        /// <param name="tokenCancelacion">Token de cancelación para detener el cronómetro.</param>
         private void ArrancarCronometro(CancellationToken tokenCancelacion)
         {
             int seg = 1;
@@ -494,7 +563,7 @@ namespace WinFormsCRUD
 
             while (!tokenCancelacion.IsCancellationRequested)
             {
-                this.Invoke(new Action<string>(ActualizarLabel), $"Tiempo total en la app: {horas:D2}:{min:D2}:{segContando:D2}");
+                this.Invoke(new Action<string>(ActualizarLbl), $"Tiempo total en la app: {horas:D2}:{min:D2}:{segContando:D2}");
 
                 Thread.Sleep(1000);
 
@@ -504,7 +573,12 @@ namespace WinFormsCRUD
                 segContando = seg % 60;
             }
         }
-        private void ActualizarLabel(string textoHora)
+
+        /// <summary>
+        /// Método para actualizar el label del cronómetro con el tiempo transcurrido.
+        /// </summary>
+        /// <param name="textoHora">Texto que representa el tiempo transcurrido.</param>
+        private void ActualizarLbl(string textoHora)
         {
             this.lblCronometro.Text = textoHora;
         }
