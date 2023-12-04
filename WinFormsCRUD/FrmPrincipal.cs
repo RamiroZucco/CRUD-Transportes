@@ -272,7 +272,12 @@ namespace WinFormsCRUD
 
         private void FrmPrincipal_Load(object sender, EventArgs e)
         {
-
+            sql.CargarAutosBaseDeDatos(this.autos.ListaTransportes);
+            sql.CargarAvionesBaseDeDatos(this.aviones.ListaTransportes);
+            sql.CargarCaballosBaseDeDatos(this.caballos.ListaTransportes);
+            ActualizarVisor(this.lstVisorAviones, this.aviones);
+            ActualizarVisor(this.lstVisorAutos, this.autos);
+            ActualizarVisor(this.lstVisorCaballos, this.caballos);
         }
         private void FrmPrincipal_FormClosing(object sender, FormClosingEventArgs e)
         {

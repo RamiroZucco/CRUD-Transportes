@@ -272,10 +272,7 @@ namespace Entidades
                     retorno = true;
                 }
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error: " + ex.Message);
-            }
+            catch{ }
             finally
             {
                 if (this.conexion.State == System.Data.ConnectionState.Open)
