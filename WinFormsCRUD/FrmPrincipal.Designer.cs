@@ -459,7 +459,7 @@
             Controls.Add(lblTitulo);
             Name = "FrmPrincipal";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "FrmPrincipal";
+            Text = "Transportes";
             FormClosing += FrmPrincipal_FormClosing;
             Load += FrmPrincipal_Load;
             ((System.ComponentModel.ISupportInitialize)picCaballo).EndInit();

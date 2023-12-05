@@ -18,7 +18,6 @@ namespace WinFormsCRUD
     {
         private Usuario usuario;
 
-
         public Usuario UsuarioDelForm
         {
             get { return this.usuario; }
@@ -95,5 +94,4 @@ namespace WinFormsCRUD
             }
         }
     }
-
 }

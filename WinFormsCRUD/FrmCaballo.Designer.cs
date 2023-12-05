@@ -178,7 +178,7 @@
             Controls.Add(lblCantPasajeros);
             Name = "FrmCaballo";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "FrmCaballo";
+            Text = "Caballo";
             ResumeLayout(false);
             PerformLayout();
         }

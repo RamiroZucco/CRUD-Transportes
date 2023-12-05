@@ -178,7 +178,7 @@
             Controls.Add(lblCantPasajeros);
             Name = "FrmAvion";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "FrmAvion";
+            Text = "Avion";
             ResumeLayout(false);
             PerformLayout();
         }

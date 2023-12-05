@@ -43,8 +43,8 @@ namespace WinFormsCRUD
                 nuevoCaballo = frmCaballo.caballo;
                 this.DialogResult = DialogResult.OK;
             }
-            
-            
+
+
         }
 
         private void btnAgregarAuto_Click(object sender, EventArgs e)

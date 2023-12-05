@@ -59,7 +59,7 @@
             btnIngresar.BackColor = Color.White;
             btnIngresar.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Bold, GraphicsUnit.Point);
             btnIngresar.ForeColor = SystemColors.ControlText;
-            btnIngresar.Location = new Point(294, 271);
+            btnIngresar.Location = new Point(305, 292);
             btnIngresar.Name = "btnIngresar";
             btnIngresar.Size = new Size(208, 37);
             btnIngresar.TabIndex = 0;
@@ -106,7 +106,7 @@
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Name = "FrmLogin";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "FrmLogin";
+            Text = "Inicio de sesión";
             FormClosing += FrmLogin_FormClosing;
             ResumeLayout(false);
             PerformLayout();

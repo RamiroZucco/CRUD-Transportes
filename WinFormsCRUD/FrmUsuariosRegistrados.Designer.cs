@@ -62,7 +62,7 @@
             Controls.Add(lstLog);
             Name = "FrmUsuariosRegistrados";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "FrmUsuariosRegistrados";
+            Text = "Usuarios Registrados";
             Load += FrmUsuariosRegistrados_Load;
             ResumeLayout(false);
             PerformLayout();

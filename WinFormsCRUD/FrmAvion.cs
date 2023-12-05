@@ -78,7 +78,7 @@ namespace WinFormsCRUD
             {
                 MessageBox.Show("La cantidad de ventanas debe estar entre 12 y 40.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            
+
         }
 
         /// <summary>

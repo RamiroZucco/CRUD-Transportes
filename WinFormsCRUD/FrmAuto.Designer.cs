@@ -178,7 +178,7 @@
             Controls.Add(lblCantPasajeros);
             Name = "FrmAuto";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "FrmAuto";
+            Text = "Auto";
             ResumeLayout(false);
             PerformLayout();
         }

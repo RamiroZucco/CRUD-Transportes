@@ -96,7 +96,7 @@
             Controls.Add(btnAgregarCaballo);
             Name = "FrmTransporte";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "FrmTransporte";
+            Text = "Transporte";
             ResumeLayout(false);
             PerformLayout();
         }
