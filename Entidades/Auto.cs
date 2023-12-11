@@ -33,7 +33,11 @@ namespace Entidades
 
         #region Constructores
 
-        public Auto() { }
+        /// <summary>
+        /// Constructor por defecto de la clase Auto.
+        /// </summary>
+        public Auto() 
+        { }
 
         /// <summary>
         /// Constructor de la clase Auto que permite establecer todas las propiedades del automóvil.
@@ -42,29 +46,13 @@ namespace Entidades
         /// <param name="velocidad">La velocidad máxima del automóvil.</param>
         /// <param name="cantidadDePuertas">La cantidad de puertas del automóvil.</param>
         /// <param name="carga">El tipo de carga del automóvil.</param>
-        /// <param name="patente">Los últimos 2 números de la patente del automóvil.</param>
-        public Auto(int pasajeros, EVelocidad velocidad, int cantidadDePuertas, ECarga carga, string patente) : base(pasajeros, velocidad, carga)
+        /// <param name="patente">Los últimos 3 números de la patente del automóvil.</param>
+        public Auto(int pasajeros, EVelocidad velocidad, int cantidadDePuertas, ECarga carga, string patente)
+            : base(pasajeros, carga, velocidad)
         {
             this.cantidadDePuertas = cantidadDePuertas;
             this.numerosPatente = patente;
         }
-
-        /// <summary>
-        /// Constructor con un parámetro menos que el anterior.
-        /// </summary>
-        public Auto(int pasajeros, EVelocidad velocidad, ECarga carga, string patente) : base(pasajeros, velocidad, carga) 
-        {
-            this.numerosPatente = patente;
-        }
-
-        /// <summary>
-        /// Constructor con un parámetro menos que el anterior y con velocidad y carga ya definidos.
-        /// </summary>
-        public Auto(int pasajeros, string patente) : base(pasajeros, EVelocidad.Alta, ECarga.Media)
-        {
-            this.numerosPatente = patente;
-        }
-
         #endregion
 
         #region Metodos y Sobrecargas

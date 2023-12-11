@@ -64,31 +64,33 @@ namespace Entidades
         /// </summary>
         public Transporte()
         {
-            
-        }
-        /// <summary>
-        /// Constructor con todos los atributos de la clase.
-        /// </summary>
-        public Transporte(int pasajeros, EVelocidad velocidad, ECarga carga)
-        {
-            this.CantidadPasajeros = pasajeros;
-            this.VelocidadMaxima = velocidad;
-            this.Carga = carga;
+
         }
 
-        public Transporte(int pasajeros, ECarga carga, EVelocidad velocidad) : this(carga,velocidad)
-        {
-            this.CantidadPasajeros = pasajeros;
-        }
-        
         /// <summary>
-        /// Constructor con un parametro menos que el anterior.
+        /// Constructor con un parámetro 'cantidad de pasajeros' que llama al constructor predeterminado.
         /// </summary>
-        public Transporte(ECarga carga, EVelocidad velocidad) : this()    
+        public Transporte(int pasajeros) : this()
         {
-            this.Carga = carga;
-            this.VelocidadMaxima = velocidad;
+            this.cantidadPasajeros = pasajeros;
         }
+
+        /// <summary>
+        /// Constructor con dos parámetros 'cantidad de pasajeros' y 'carga' que llama al constructor anterior.
+        /// </summary>
+        public Transporte(int pasajeros, ECarga carga) : this(pasajeros)
+        {
+            this.carga = carga;
+        }
+
+        /// <summary>
+        /// Constructor con tres parámetros 'cantidad de pasajeros', 'carga' y 'velocidad maxima' que llama al constructor anterior.
+        /// </summary>
+        public Transporte(int pasajeros, ECarga carga, EVelocidad velocidad) : this(pasajeros, carga)
+        {
+            this.velocidadMaxima = velocidad;
+        }
+
         #endregion
 
         #region Metodos y Sobrecargas

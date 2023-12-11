@@ -38,32 +38,21 @@ namespace Entidades
         /// </summary>
         public Caballo()
         {
-            //this.nombre = "Nombre indefinido";
+
         }
 
         /// <summary>
-        /// Constructor con todos los atributos como parametros.
+        /// Constructor de la clase Caballo que permite establecer todas las propiedades del caballo.
         /// </summary>
-        public Caballo(string nombre, int cantPasajeros, EVelocidad miVelocidad, EColor color, ECarga carga):base(cantPasajeros,miVelocidad,carga)
+        /// <param name="pasajeros">La cantidad de pasajeros del avión.</param>
+        /// <param name="velocidad">La velocidad máxima del avión.</param>
+        /// <param name="nombre">El nombre del caballo.</param>
+        /// <param name="color">El color del caballo.</param>
+        /// <param name="carga">El tipo de carga del avión.</param>
+        public Caballo(string nombre, int pasajeros, EVelocidad velocidad, EColor color, ECarga carga)
+            : base(pasajeros, carga, velocidad)
         {
             this.nombre = nombre;
-            this.color = color;
-        }
-
-        /// <summary>
-        /// Constructor con todos los atributos como parametros pero con velocidad y carga ya definidos.
-        /// </summary>
-        public Caballo(string nombre, int cantPasajeros, EColor color) : base(cantPasajeros, EVelocidad.Media, ECarga.Liviana)
-        {
-            this.nombre = nombre;
-            this.color = color;
-        }
-
-        /// <summary>
-        /// Constructor con un parametro menos.
-        /// </summary>
-        public Caballo(int cantPasajeros, EVelocidad miVelocidad, EColor color, ECarga carga) : base(cantPasajeros, miVelocidad, carga)
-        {
             this.color = color;
         }
         #endregion

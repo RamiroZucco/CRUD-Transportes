@@ -20,6 +20,12 @@ namespace Entidades
 
         #region Constructor
 
+
+        /// <summary>
+        /// Constructor por defecto de la clase Avion.
+        /// </summary>
+        public Avion() { }
+
         /// <summary>
         /// Constructor de la clase Avion que permite establecer todas las propiedades del avión.
         /// </summary>
@@ -28,29 +34,11 @@ namespace Entidades
         /// <param name="modelo">El modelo del avión.</param>
         /// <param name="cantidadVentanas">La cantidad de ventanas del avión.</param>
         /// <param name="carga">El tipo de carga del avión.</param>
-
-        public Avion() { }
-
-        public Avion(int pasajeros, EVelocidad velocidad, string modelo, int cantidadVentanas, ECarga carga):base(pasajeros,velocidad,carga)
+        public Avion(int pasajeros, EVelocidad velocidad, string modelo, int cantidadVentanas, ECarga carga)
+            : base(pasajeros, carga, velocidad)
         {
-            this.modelo = modelo;
             this.cantidadDeVentanas = cantidadVentanas;
-        }
-        /// <summary>
-        /// Constructor de la clase Avion que tiene un parametro menos que el anterior.
-        /// <summary>
-        public Avion(int pasajeros, EVelocidad velocidad, string modelo, ECarga carga) : base(pasajeros, velocidad, carga)
-        {
             this.modelo = modelo;
-        }
-
-        /// <summary>
-        /// Constructor de la clase Avion que tiene un parametro menos que el anterior y además se le asigna un valor a velocidad y carga.
-        /// <summary>
-        public Avion(int pasajeros, string modelo, int cantidadVentanas) : base(pasajeros, EVelocidad.Hiper, ECarga.MuyPesada)
-        {
-            this.modelo = modelo;
-            this.cantidadDeVentanas= cantidadVentanas;
         }
 
         #endregion
