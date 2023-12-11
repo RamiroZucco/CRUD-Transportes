@@ -18,6 +18,9 @@ namespace WinFormsCRUD
     public partial class FrmAvion : Form
     {
         public Avion avion;
+        EVelocidad velocidad;
+        ECarga carga;
+
         public FrmAvion()
         {
             InitializeComponent();
@@ -30,8 +33,8 @@ namespace WinFormsCRUD
         public FrmAvion(Transporte avion) : this()
         {
             this.txtCantPasajeros.Text = avion.CantidadPasajeros.ToString();
-            this.txtVelocidad.Text = avion.VelocidadMaxima.ToString();
-            this.txtCarga.Text = avion.Carga.ToString();
+            this.cmBoxVelocidad.Text = avion.VelocidadMaxima.ToString();
+            this.cmBoxCarga.Text = avion.Carga.ToString();
             if (avion is Avion avionEspecifico)
             {
                 this.txtModelo.Text = avionEspecifico.Modelo.ToString();
@@ -46,38 +49,73 @@ namespace WinFormsCRUD
         /// </summary>
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-            if (!int.TryParse(this.txtCantPasajeros.Text, out int cantidadPasajeros))
+            if (!int.TryParse(this.txtCantPasajeros.Text, out int cantidadPasajeros) || cantidadPasajeros < 1 || cantidadPasajeros > 850)
             {
-                MessageBox.Show("La cantidad de pasajeros debe ser un número entero válido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            if (cantidadPasajeros < 1 || cantidadPasajeros > 850)
-            {
-                MessageBox.Show("La cantidad maxima de pasajeros es de 850 en aviones.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("La cantidad de pasajeros debe ser un número entero válido entre 1 y 850.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             string modelo = this.txtModelo.Text;
 
-            if (int.TryParse(this.txtCantVentanas.Text, out int cantidadDeVentanas) && cantidadDeVentanas >= 12 && cantidadDeVentanas <= 40)
+            if (!int.TryParse(this.txtCantVentanas.Text, out int cantidadDeVentanas) || cantidadDeVentanas < 12 || cantidadDeVentanas > 40)
             {
-                if (Enum.TryParse(this.txtVelocidad.Text, out EVelocidad velocidad) &&
-                    Enum.TryParse(this.txtCarga.Text, out ECarga carga))
+                MessageBox.Show("La cantidad de ventanas debe ser un número entero válido entre 12 y 40.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (cmBoxVelocidad.Text != string.Empty)
+            {
+                switch (cmBoxVelocidad.Text)
                 {
-                    this.avion = new Avion(cantidadPasajeros, velocidad, modelo, cantidadDeVentanas, carga);
-                    this.DialogResult = DialogResult.OK;
-                    this.Close();
-                }
-                else
-                {
-                    MessageBox.Show("Carga o velocidad incorrectos. Presta atención a las mayúsculas", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    case "BAJA":
+                        velocidad = EVelocidad.Baja;
+                        break;
+                    case "MINIMA":
+                        velocidad = EVelocidad.Minima;
+                        break;
+                    case "MEDIA":
+                        velocidad = EVelocidad.Media;
+                        break;
+                    case "ALTA":
+                        velocidad = EVelocidad.Alta;
+                        break;
+                    case "HIPER":
+                        velocidad = EVelocidad.Hiper;
+                        break;
                 }
             }
             else
             {
-                MessageBox.Show("La cantidad de ventanas debe estar entre 12 y 40.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Elija una velocidad.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
+            if (cmBoxCarga.Text != string.Empty)
+            {
+                switch (cmBoxCarga.Text)
+                {
+                    case "LIVIANA":
+                        carga = ECarga.Liviana;
+                        break;
+                    case "PESADA":
+                        carga = ECarga.Pesada;
+                        break;
+                    case "MEDIA":
+                        carga = ECarga.Media;
+                        break;
+                    case "MUYPESADA":
+                        carga = ECarga.MuyPesada;
+                        break;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Elija una carga.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            this.avion = new Avion(cantidadPasajeros, velocidad, modelo, cantidadDeVentanas, carga);
+            this.DialogResult = DialogResult.OK;
+            this.Close();
 
         }
 

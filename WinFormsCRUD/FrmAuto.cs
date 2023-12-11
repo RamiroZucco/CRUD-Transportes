@@ -19,6 +19,8 @@ namespace WinFormsCRUD
     public partial class FrmAuto : Form, IValidadora
     {
         public Auto auto;
+        EVelocidad velocidad;
+        ECarga carga;
         public FrmAuto()
         {
             InitializeComponent();
@@ -31,8 +33,8 @@ namespace WinFormsCRUD
         public FrmAuto(Transporte auto) : this()
         {
             this.txtCantPasajeros.Text = auto.CantidadPasajeros.ToString();
-            this.txtVelocidad.Text = auto.VelocidadMaxima.ToString();
-            this.txtCarga.Text = auto.Carga.ToString();
+            this.cmBoxVelocidad.Text = auto.VelocidadMaxima.ToString();
+            this.cmBoxCarga.Text = auto.Carga.ToString();
             if (auto is Auto autoEspecifico)
             {
                 this.txtPatente.Text = autoEspecifico.NumerosPatente.ToString();
@@ -47,15 +49,9 @@ namespace WinFormsCRUD
         /// </summary>
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-            if (!int.TryParse(this.txtCantPasajeros.Text, out int cantidadPasajeros))
+            if (!int.TryParse(this.txtCantPasajeros.Text, out int cantidadPasajeros) || cantidadPasajeros < 1 || cantidadPasajeros > 4)
             {
-                MessageBox.Show("La cantidad de pasajeros debe ser un número entero válido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            if (cantidadPasajeros < 1 || cantidadPasajeros > 4)
-            {
-                MessageBox.Show("La cantidad de pasajeros debe estar entre 1 y 4 en autos.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("La cantidad de pasajeros debe ser un número entero válido entre 1 y 4.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -67,25 +63,64 @@ namespace WinFormsCRUD
                 return;
             }
 
-            if (int.TryParse(this.txtPuertas.Text, out int cantidadDePuertas) && cantidadDePuertas >= 2 && cantidadDePuertas <= 5)
+            if (!int.TryParse(this.txtPuertas.Text, out int cantidadDePuertas) || cantidadDePuertas < 2 || cantidadDePuertas > 5)
             {
-                if (Enum.TryParse(this.txtVelocidad.Text, out EVelocidad velocidad) &&
-                    Enum.TryParse(this.txtCarga.Text, out ECarga carga))
+                MessageBox.Show("La cantidad de puertas debe ser un número entero válido entre 2 y 5.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (cmBoxVelocidad.Text != string.Empty)
+            {
+                switch (cmBoxVelocidad.Text)
                 {
-                    this.auto = new Auto(cantidadPasajeros, velocidad, cantidadDePuertas, carga, patente);
-                    this.DialogResult = DialogResult.OK;
-                    this.Close();
-                }
-                else
-                {
-                    MessageBox.Show("Carga o velocidad incorrectos.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    case "BAJA":
+                        velocidad = EVelocidad.Baja;
+                        break;
+                    case "MINIMA":
+                        velocidad = EVelocidad.Minima;
+                        break;
+                    case "MEDIA":
+                        velocidad = EVelocidad.Media;
+                        break;
+                    case "ALTA":
+                        velocidad = EVelocidad.Alta;
+                        break;
+                    case "HIPER":
+                        velocidad = EVelocidad.Hiper;
+                        break;
                 }
             }
             else
             {
-                MessageBox.Show("La cantidad de puertas debe estar entre 2 y 5.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Elija una velocidad.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
-
+            if (cmBoxCarga.Text != string.Empty)
+            {
+                switch (cmBoxCarga.Text)
+                {
+                    case "LIVIANA":
+                        carga = ECarga.Liviana;
+                        break;
+                    case "PESADA":
+                        carga = ECarga.Pesada;
+                        break;
+                    case "MEDIA":
+                        carga = ECarga.Media;
+                        break;
+                    case "MUYPESADA":
+                        carga = ECarga.MuyPesada;
+                        break;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Elija una carga.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            this.auto = new Auto(cantidadPasajeros, velocidad, cantidadDePuertas, carga, patente);
+            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
 
         /// <summary>

@@ -34,12 +34,12 @@
             lblNombre = new Label();
             lblColor = new Label();
             txtCantPasajeros = new TextBox();
-            txtVelocidad = new TextBox();
-            txtCarga = new TextBox();
             txtNombre = new TextBox();
-            txtColor = new TextBox();
             btnAceptar = new Button();
             btnCancelar = new Button();
+            cmBoxVelocidad = new ComboBox();
+            cmBoxCarga = new ComboBox();
+            cmBoxColor = new ComboBox();
             SuspendLayout();
             // 
             // lblCantPasajeros
@@ -61,9 +61,9 @@
             lblVelocidad.ForeColor = Color.Maroon;
             lblVelocidad.Location = new Point(31, 105);
             lblVelocidad.Name = "lblVelocidad";
-            lblVelocidad.Size = new Size(257, 16);
+            lblVelocidad.Size = new Size(69, 16);
             lblVelocidad.TabIndex = 12;
-            lblVelocidad.Text = "Velocidad (Minima,Baja,Media,Alta,Hiper)";
+            lblVelocidad.Text = "Velocidad";
             lblVelocidad.TextAlign = ContentAlignment.TopCenter;
             // 
             // lblCarga
@@ -73,9 +73,9 @@
             lblCarga.ForeColor = Color.Maroon;
             lblCarga.Location = new Point(31, 167);
             lblCarga.Name = "lblCarga";
-            lblCarga.Size = new Size(266, 16);
+            lblCarga.Size = new Size(44, 16);
             lblCarga.TabIndex = 13;
-            lblCarga.Text = "Carga (Liviana,Media,Pesada,MuyPesada)";
+            lblCarga.Text = "Carga";
             lblCarga.TextAlign = ContentAlignment.TopCenter;
             // 
             // lblNombre
@@ -85,9 +85,9 @@
             lblNombre.ForeColor = Color.Maroon;
             lblNombre.Location = new Point(31, 229);
             lblNombre.Name = "lblNombre";
-            lblNombre.Size = new Size(126, 16);
+            lblNombre.Size = new Size(56, 16);
             lblNombre.TabIndex = 14;
-            lblNombre.Text = "Nombre del caballo";
+            lblNombre.Text = "Nombre";
             lblNombre.TextAlign = ContentAlignment.TopCenter;
             // 
             // lblColor
@@ -97,9 +97,9 @@
             lblColor.ForeColor = Color.Maroon;
             lblColor.Location = new Point(31, 292);
             lblColor.Name = "lblColor";
-            lblColor.Size = new Size(109, 16);
+            lblColor.Size = new Size(39, 16);
             lblColor.TabIndex = 15;
-            lblColor.Text = "Color del caballo";
+            lblColor.Text = "Color";
             lblColor.TextAlign = ContentAlignment.TopCenter;
             // 
             // txtCantPasajeros
@@ -109,33 +109,12 @@
             txtCantPasajeros.Size = new Size(304, 23);
             txtCantPasajeros.TabIndex = 16;
             // 
-            // txtVelocidad
-            // 
-            txtVelocidad.Location = new Point(31, 124);
-            txtVelocidad.Name = "txtVelocidad";
-            txtVelocidad.Size = new Size(304, 23);
-            txtVelocidad.TabIndex = 17;
-            // 
-            // txtCarga
-            // 
-            txtCarga.Location = new Point(31, 186);
-            txtCarga.Name = "txtCarga";
-            txtCarga.Size = new Size(304, 23);
-            txtCarga.TabIndex = 18;
-            // 
             // txtNombre
             // 
             txtNombre.Location = new Point(31, 248);
             txtNombre.Name = "txtNombre";
             txtNombre.Size = new Size(304, 23);
             txtNombre.TabIndex = 19;
-            // 
-            // txtColor
-            // 
-            txtColor.Location = new Point(31, 311);
-            txtColor.Name = "txtColor";
-            txtColor.Size = new Size(304, 23);
-            txtColor.TabIndex = 20;
             // 
             // btnAceptar
             // 
@@ -159,17 +138,47 @@
             btnCancelar.UseVisualStyleBackColor = true;
             btnCancelar.Click += btnCancelar_Click;
             // 
+            // cmBoxVelocidad
+            // 
+            cmBoxVelocidad.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmBoxVelocidad.FormattingEnabled = true;
+            cmBoxVelocidad.Items.AddRange(new object[] { "MINIMA", "BAJA", "MEDIA", "ALTA", "HIPER" });
+            cmBoxVelocidad.Location = new Point(31, 124);
+            cmBoxVelocidad.Name = "cmBoxVelocidad";
+            cmBoxVelocidad.Size = new Size(163, 23);
+            cmBoxVelocidad.TabIndex = 23;
+            // 
+            // cmBoxCarga
+            // 
+            cmBoxCarga.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmBoxCarga.FormattingEnabled = true;
+            cmBoxCarga.Items.AddRange(new object[] { "LIVIANA", "MEDIA", "PESADA", "MUYPESADA" });
+            cmBoxCarga.Location = new Point(31, 186);
+            cmBoxCarga.Name = "cmBoxCarga";
+            cmBoxCarga.Size = new Size(163, 23);
+            cmBoxCarga.TabIndex = 24;
+            // 
+            // cmBoxColor
+            // 
+            cmBoxColor.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmBoxColor.FormattingEnabled = true;
+            cmBoxColor.Items.AddRange(new object[] { "BLANCO", "MARRON", "GRIS", "NEGRO", "PINTO" });
+            cmBoxColor.Location = new Point(31, 311);
+            cmBoxColor.Name = "cmBoxColor";
+            cmBoxColor.Size = new Size(163, 23);
+            cmBoxColor.TabIndex = 25;
+            // 
             // FrmCaballo
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(378, 422);
+            Controls.Add(cmBoxColor);
+            Controls.Add(cmBoxCarga);
+            Controls.Add(cmBoxVelocidad);
             Controls.Add(btnCancelar);
             Controls.Add(btnAceptar);
-            Controls.Add(txtColor);
             Controls.Add(txtNombre);
-            Controls.Add(txtCarga);
-            Controls.Add(txtVelocidad);
             Controls.Add(txtCantPasajeros);
             Controls.Add(lblColor);
             Controls.Add(lblNombre);
@@ -191,11 +200,11 @@
         private Label lblNombre;
         private Label lblColor;
         private TextBox txtCantPasajeros;
-        private TextBox txtVelocidad;
-        private TextBox txtCarga;
         private TextBox txtNombre;
-        private TextBox txtColor;
         private Button btnAceptar;
         private Button btnCancelar;
+        private ComboBox cmBoxVelocidad;
+        private ComboBox cmBoxCarga;
+        private ComboBox cmBoxColor;
     }
 }

@@ -32,14 +32,14 @@
             btnAceptar = new Button();
             txtPuertas = new TextBox();
             txtPatente = new TextBox();
-            txtCarga = new TextBox();
-            txtVelocidad = new TextBox();
             txtCantPasajeros = new TextBox();
             lblCantPuertas = new Label();
             lblPatente = new Label();
             lblCarga = new Label();
             lblVelocidad = new Label();
             lblCantPasajeros = new Label();
+            cmBoxVelocidad = new ComboBox();
+            cmBoxCarga = new ComboBox();
             SuspendLayout();
             // 
             // btnCancelar
@@ -77,20 +77,6 @@
             txtPatente.Name = "txtPatente";
             txtPatente.Size = new Size(304, 23);
             txtPatente.TabIndex = 31;
-            // 
-            // txtCarga
-            // 
-            txtCarga.Location = new Point(37, 174);
-            txtCarga.Name = "txtCarga";
-            txtCarga.Size = new Size(304, 23);
-            txtCarga.TabIndex = 30;
-            // 
-            // txtVelocidad
-            // 
-            txtVelocidad.Location = new Point(37, 111);
-            txtVelocidad.Name = "txtVelocidad";
-            txtVelocidad.Size = new Size(304, 23);
-            txtVelocidad.TabIndex = 29;
             // 
             // txtCantPasajeros
             // 
@@ -130,9 +116,9 @@
             lblCarga.ForeColor = Color.Maroon;
             lblCarga.Location = new Point(37, 155);
             lblCarga.Name = "lblCarga";
-            lblCarga.Size = new Size(266, 16);
+            lblCarga.Size = new Size(44, 16);
             lblCarga.TabIndex = 25;
-            lblCarga.Text = "Carga (Liviana,Media,Pesada,MuyPesada)";
+            lblCarga.Text = "Carga";
             lblCarga.TextAlign = ContentAlignment.TopCenter;
             // 
             // lblVelocidad
@@ -142,9 +128,9 @@
             lblVelocidad.ForeColor = Color.Maroon;
             lblVelocidad.Location = new Point(37, 92);
             lblVelocidad.Name = "lblVelocidad";
-            lblVelocidad.Size = new Size(257, 16);
+            lblVelocidad.Size = new Size(69, 16);
             lblVelocidad.TabIndex = 24;
-            lblVelocidad.Text = "Velocidad (Minima,Baja,Media,Alta,Hiper)";
+            lblVelocidad.Text = "Velocidad";
             lblVelocidad.TextAlign = ContentAlignment.TopCenter;
             // 
             // lblCantPasajeros
@@ -159,17 +145,37 @@
             lblCantPasajeros.Text = "Cantidad de pasajeros";
             lblCantPasajeros.TextAlign = ContentAlignment.TopCenter;
             // 
+            // cmBoxVelocidad
+            // 
+            cmBoxVelocidad.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmBoxVelocidad.FormattingEnabled = true;
+            cmBoxVelocidad.Items.AddRange(new object[] { "MINIMA", "BAJA", "MEDIA", "ALTA", "HIPER" });
+            cmBoxVelocidad.Location = new Point(37, 111);
+            cmBoxVelocidad.Name = "cmBoxVelocidad";
+            cmBoxVelocidad.Size = new Size(163, 23);
+            cmBoxVelocidad.TabIndex = 36;
+            // 
+            // cmBoxCarga
+            // 
+            cmBoxCarga.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmBoxCarga.FormattingEnabled = true;
+            cmBoxCarga.Items.AddRange(new object[] { "LIVIANA", "MEDIA", "PESADA", "MUYPESADA" });
+            cmBoxCarga.Location = new Point(37, 174);
+            cmBoxCarga.Name = "cmBoxCarga";
+            cmBoxCarga.Size = new Size(163, 23);
+            cmBoxCarga.TabIndex = 37;
+            // 
             // FrmAuto
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(378, 422);
+            Controls.Add(cmBoxCarga);
+            Controls.Add(cmBoxVelocidad);
             Controls.Add(btnCancelar);
             Controls.Add(btnAceptar);
             Controls.Add(txtPuertas);
             Controls.Add(txtPatente);
-            Controls.Add(txtCarga);
-            Controls.Add(txtVelocidad);
             Controls.Add(txtCantPasajeros);
             Controls.Add(lblCantPuertas);
             Controls.Add(lblPatente);
@@ -189,13 +195,13 @@
         private Button btnAceptar;
         private TextBox txtPuertas;
         private TextBox txtPatente;
-        private TextBox txtCarga;
-        private TextBox txtVelocidad;
         private TextBox txtCantPasajeros;
         private Label lblCantPuertas;
         private Label lblPatente;
         private Label lblCarga;
         private Label lblVelocidad;
         private Label lblCantPasajeros;
+        private ComboBox cmBoxVelocidad;
+        private ComboBox cmBoxCarga;
     }
 }

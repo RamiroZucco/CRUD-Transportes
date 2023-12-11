@@ -20,6 +20,9 @@ namespace WinFormsCRUD
     public partial class FrmCaballo : Form, IValidadora, IModificadoraDeTexto
     {
         public Caballo caballo;
+        EVelocidad velocidad;
+        ECarga carga;
+        EColor color;
 
         public FrmCaballo()
         {
@@ -34,12 +37,12 @@ namespace WinFormsCRUD
         public FrmCaballo(Transporte caballo) : this()
         {
             this.txtCantPasajeros.Text = caballo.CantidadPasajeros.ToString();
-            this.txtVelocidad.Text = caballo.VelocidadMaxima.ToString();
-            this.txtCarga.Text = caballo.Carga.ToString();
+            this.cmBoxVelocidad.Text = caballo.VelocidadMaxima.ToString();
+            this.cmBoxCarga.Text = caballo.Carga.ToString();
             if (caballo is Caballo caballoEspecifico)
             {
                 this.txtNombre.Text = caballoEspecifico.Nombre.ToString();
-                this.txtColor.Text = caballoEspecifico.Color.ToString();
+                this.cmBoxColor.Text = caballoEspecifico.Color.ToString();
                 this.txtNombre.Enabled = false;
             }
         }
@@ -50,15 +53,9 @@ namespace WinFormsCRUD
         /// </summary>
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-            if (!int.TryParse(this.txtCantPasajeros.Text, out int cantidadPasajeros))
+            if (!int.TryParse(this.txtCantPasajeros.Text, out int cantidadPasajeros) || cantidadPasajeros < 1 || cantidadPasajeros > 3)
             {
-                MessageBox.Show("La cantidad de pasajeros debe ser un número entero válido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            if (cantidadPasajeros < 1 || cantidadPasajeros > 3)
-            {
-                MessageBox.Show("La cantidad de pasajeros debe estar entre 1 y 3 en caballos.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("La cantidad de pasajeros debe ser un número entero válido entre 1 y 3.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -71,19 +68,85 @@ namespace WinFormsCRUD
             }
             nombre = Capitalize(nombre);
 
-
-            if (Enum.TryParse(this.txtVelocidad.Text, out EVelocidad velocidad) &&
-                Enum.TryParse(this.txtCarga.Text, out ECarga carga) &&
-                Enum.TryParse(this.txtColor.Text, out EColor color))
+            if (cmBoxVelocidad.Text != string.Empty)
             {
-                this.caballo = new Caballo(nombre, cantidadPasajeros, velocidad, color, carga);
-                this.DialogResult = DialogResult.OK;
-                this.Close();
+                switch (cmBoxVelocidad.Text)
+                {
+                    case "BAJA":
+                        velocidad = EVelocidad.Baja;
+                        break;
+                    case "MINIMA":
+                        velocidad = EVelocidad.Minima;
+                        break;
+                    case "MEDIA":
+                        velocidad = EVelocidad.Media;
+                        break;
+                    case "ALTA":
+                        velocidad = EVelocidad.Alta;
+                        break;
+                    case "HIPER":
+                        velocidad = EVelocidad.Hiper;
+                        break;
+                }
             }
             else
             {
-                MessageBox.Show("Carga, velocidad o color incorrectos.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Elija una velocidad.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
+            if (cmBoxCarga.Text != string.Empty)
+            {
+                switch (cmBoxCarga.Text)
+                {
+                    case "LIVIANA":
+                        carga = ECarga.Liviana;
+                        break;
+                    case "PESADA":
+                        carga = ECarga.Pesada;
+                        break;
+                    case "MEDIA":
+                        carga = ECarga.Media;
+                        break;
+                    case "MUYPESADA":
+                        carga = ECarga.MuyPesada;
+                        break;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Elija una carga.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (cmBoxColor.Text != string.Empty)
+            {
+                switch (cmBoxColor.Text)
+                {
+                    case "BLANCO":
+                        color = EColor.Blanco;
+                        break;
+                    case "GRIS":
+                        color = EColor.Gris;
+                        break;
+                    case "MARRON":
+                        color = EColor.Marron;
+                        break;
+                    case "NEGRO":
+                        color = EColor.Negro;
+                        break;
+                    case "PINTO":
+                        color = EColor.Pinto;
+                        break;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Elija un color.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            this.caballo = new Caballo(nombre, cantidadPasajeros, velocidad, color, carga);
+            this.DialogResult = DialogResult.OK;
+            this.Close();
 
         }
 

@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Reflection.Metadata.Ecma335;
+using System.Text;
 using System.Text.Json.Serialization;
 using System.Xml.Serialization;
 
@@ -28,12 +29,32 @@ namespace Entidades
         /// <summary>
         /// Obtiene o establece la velocidad máxima del transporte.
         /// </summary>
-        public EVelocidad VelocidadMaxima { get => velocidadMaxima; set => velocidadMaxima = value; }
-        
+        public EVelocidad VelocidadMaxima
+        {
+            get
+            {
+                return this.velocidadMaxima;
+            }
+            set
+            {
+                this.velocidadMaxima = value;
+            }
+        }
+
         /// <summary>
         /// Obtiene o establece la carga que puede transportar el vehículo.
         /// </summary>
-        public ECarga Carga { get => carga; set => carga = value; }
+        public ECarga Carga
+        {
+            get
+            {
+                return this.carga;
+            }
+            set
+            {
+                this.carga = value;
+            }
+        }
         #endregion
 
         #region Constructores
